@@ -43,5 +43,21 @@ namespace NeuralNetworks
 
 			return result;
 		}
+
+		/*
+		 * OTHERS
+		 */
+		public static double[] trim(double[] arr, int length)
+		{
+			if(arr.Length == length)
+				return arr;
+			else if(length > arr.Length)
+				throw new ArgumentOutOfRangeException("Trimming length is bigger than the vector length");
+			
+			double[] newArr = new double[length];
+			Array.Copy(arr, newArr, length);
+
+			return newArr;
+		}
 	}
 }

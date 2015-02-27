@@ -33,6 +33,26 @@ namespace NeuralNetworks
 		/// <summary>Create a new perceptron machine.</summary>
 		/// <param name="dataSet">Object holding the dataset to work on.</param>
 		/// <param name="target">The target/goal vector for the training.</param>
+		/// <param name="eta">The learning rate.</param>
+		/// <param name="features">Number for features to use </param>
+		public Perceptron(DataSetReader dataSet, double[] target, double eta, int features){
+			if(features > dataSet.features || features < 1)
+				throw new ArgumentOutOfRangeException("Number of features specified is not applicable");
+
+			this.target = target;
+			this.data = dataSet.data;
+			this.classes = dataSet.classes;
+			this.features = features;
+			this.samples = dataSet.samples;
+			this.eta = eta;
+
+			//Initializing weight with 1's:
+			initializeWeight(this.features);
+		}
+
+		/// <summary>Create a new perceptron machine.</summary>
+		/// <param name="dataSet">Object holding the dataset to work on.</param>
+		/// <param name="target">The target/goal vector for the training.</param>
 		/// <param name="weight">The initial weight vector to start with.</param>
 		/// <param name="eta">The learning rate.</param>
 		public Perceptron(DataSetReader dataSet, double[] target, double[] weight, double eta)
@@ -47,16 +67,13 @@ namespace NeuralNetworks
 		}
 
 		/// <summary>Train the machine using the perceptron algorithm.</summary>
-		/// <param name="trainCount">Number of smaples from data set to use in training.</param>
+		/// <param name="trainCount">Number of data set smaples to use in training.</param>
 		public void train(int trainCount)
 		{
 			int epochs = 0;
 			const int MAX_EPOCHS = 1000;	//Limiting the number of iterations in the process.
 			bool weightChanged = true;
-
-			/*INIT CHECKS*/
-			if(this.data.Length != this.classes)
-				throw new ArgumentException("Input and target data are not of the same length");
+			double[] lineData;
 			
 			/*REAL WORK*/
 			while(weightChanged && epochs < MAX_EPOCHS)
@@ -66,15 +83,18 @@ namespace NeuralNetworks
 				{
 					for(int j=0; j<trainCount; j++) //Data index.
 					{
-						double net = VectorTools.multiply(this.weight, this.data[i][j]);
+						lineData = VectorTools.trim(this.data[i][j], features);
+
+						double net = VectorTools.multiply(this.weight, lineData);
 						int sgnOut = ActivationFunctions.signum(net);
 
 						if(sgnOut != this.target[i])
 						{
 							weightChanged = true;
+							lineData = VectorTools.trim(this.data[i][j], features);
 
 							double error = this.target[i] - sgnOut;
-							double[] mulOut = VectorTools.multiply(this.data[i][j], error * this.eta);
+							double[] mulOut = VectorTools.multiply(lineData, error * this.eta);
 							this.weight = VectorTools.sum(this.weight, mulOut);
 						}
 					}

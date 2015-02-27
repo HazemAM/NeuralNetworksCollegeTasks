@@ -10,6 +10,7 @@ namespace NeuralNetworks
 		public readonly int classes;
 		public readonly int features;
 		public readonly int samples;	//Number of samples per class.
+		public readonly int maxValue;
 
 		public readonly List<double[]>[] data;
 
@@ -22,6 +23,7 @@ namespace NeuralNetworks
 				this.classes = 3;
 				this.features = 4;
 				this.samples = 50;
+				this.maxValue = 8;
 				break;
 			}
 
