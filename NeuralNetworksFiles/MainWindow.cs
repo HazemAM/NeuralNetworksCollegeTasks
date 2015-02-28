@@ -6,34 +6,45 @@ namespace NeuralNetworks
 {
 	public partial class MainWindow : Form
 	{
-		DataSetReader iris;
+		double[] target;
+		double[] features;
+		double[] classes;
+
+		DataSetReader irisSet;
 		Perceptron machine;
 		GraphDrawer graphDrawer;
 		SolidBrush[] irisBrushes = new SolidBrush[]{
 			new SolidBrush(Color.Red),
-			new SolidBrush(Color.Green),
+			new SolidBrush(Color.Gray),
 			new SolidBrush(Color.Blue),
 		};
 
 		public MainWindow()
 		{
 			InitializeComponent();
-			iris = new DataSetReader("../../../DataSets/iris.data", DataSetType.IRIS);
-			graphDrawer = new GraphDrawer(iris, graphPicture, irisBrushes);
+
+			irisSet = new DataSetReader("../../../DataSets/iris.data", DataSetType.IRIS);
+			graphDrawer = new GraphDrawer(irisSet, graphPictureBox, irisBrushes);
 		}
 
-		private void irisPerceptron()
+		private void runIrisPerceptron()
 		{
-			double[] target = new double[] {-1, 0, 1};
+			target = new double[] {-1, 1};
+			features = new double[] {(int)numFeatureOne.Value, (int)numFeatureTwo.Value};
+			classes = new double[] {(int)numClassOne.Value, (int)numClassTwo.Value};
 			double eta = 0.75;
 
-			machine = new Perceptron(iris, target, eta, 2);
+			machine = new Perceptron(irisSet, target, eta, features, classes);
 			machine.train(30);
+			
+			int[,] testMatrix = machine.test(20);
+			UiTools.drawMatrix(dataGridView, testMatrix);
+			lblAccuracy.Text = VectorTools.confusionAccuracy(testMatrix).ToString();
 		}
 
 		private void btnDrawGraph_Click(object sender, EventArgs e)
 		{
-			irisPerceptron();
+			runIrisPerceptron();
 			graphDrawer.drawGraph((int)numFeatureOne.Value, (int)numFeatureTwo.Value);
 		}
 
@@ -43,15 +54,21 @@ namespace NeuralNetworks
 			float y = (float)e.Y;
 			PictureBox pictureBox = sender as PictureBox;
 
-			if(pictureBox.Image == null) pictureBox.Image = new Bitmap(pictureBox.Width, pictureBox.Height);
+			if(pictureBox.Image == null) return;
 
 			double[] testData = new double[] {
 				x/graphDrawer.getFactorX(),
 				y/graphDrawer.getFactorY()
 			};
-			int test = (int)machine.test(testData);
+			int newClass = (int)machine.classify(testData);
 
-			graphDrawer.drawPoint(x, y, irisBrushes[test+1]);
+			int brushIndex = Array.IndexOf(target, newClass);
+			SolidBrush[] brushes = new SolidBrush[]{
+				irisBrushes[(int)numClassOne.Value - 1],
+				irisBrushes[(int)numClassTwo.Value - 1],
+			};
+
+			graphDrawer.drawPoint(x, y, brushes[brushIndex]);
 		}
 	}
 }

@@ -9,9 +9,9 @@ namespace NeuralNetworks
 		private double[] weight;
 		private double eta;
 		private List<double[]>[] data;
-		private int classes;	//Number of classes.
 		private int samples;	//Number of samples per class.
-		private int features;	//Number of features per sample.
+		private double[] featureMask;
+		private double[] classMask;
 
 		/// <summary>Create a new perceptron machine.</summary>
 		/// <param name="dataSet">Object holding the dataset to work on.</param>
@@ -21,33 +21,29 @@ namespace NeuralNetworks
 		{
 			this.target = target;
 			this.data = dataSet.data;
-			this.classes = dataSet.classes;
-			this.features = dataSet.features;
+			this.featureMask = VectorTools.sequence(dataSet.features);
+			this.classMask = VectorTools.sequence(dataSet.classes);
+			this.weight = VectorTools.ones(this.featureMask.Length);
 			this.samples = dataSet.samples;
 			this.eta = eta;
-
-			//Initializing weight with 1's:
-			initializeWeight(this.features);
 		}
 
 		/// <summary>Create a new perceptron machine.</summary>
 		/// <param name="dataSet">Object holding the dataset to work on.</param>
 		/// <param name="target">The target/goal vector for the training.</param>
 		/// <param name="eta">The learning rate.</param>
-		/// <param name="features">Number for features to use </param>
-		public Perceptron(DataSetReader dataSet, double[] target, double eta, int features){
-			if(features > dataSet.features || features < 1)
+		/// <param name="featureMask">Set of features to use in the machine.</param>
+		public Perceptron(DataSetReader dataSet, double[] target, double eta, double[] featureMask, double[] classMask){
+			if(featureMask.Length > dataSet.features || featureMask.Length < 1)
 				throw new ArgumentOutOfRangeException("Number of features specified is not applicable");
 
 			this.target = target;
 			this.data = dataSet.data;
-			this.classes = dataSet.classes;
-			this.features = features;
+			this.featureMask = featureMask;
+			this.classMask = classMask;
+			this.weight = VectorTools.ones(this.featureMask.Length);
 			this.samples = dataSet.samples;
 			this.eta = eta;
-
-			//Initializing weight with 1's:
-			initializeWeight(this.features);
 		}
 
 		/// <summary>Create a new perceptron machine.</summary>
@@ -59,8 +55,8 @@ namespace NeuralNetworks
 		{
 			this.target = target;
 			this.data = dataSet.data;
-			this.classes = dataSet.classes;
-			this.features = dataSet.features;
+			this.featureMask = VectorTools.sequence(dataSet.features);
+			this.classMask = VectorTools.sequence(dataSet.classes);
 			this.samples = dataSet.samples;
 			this.weight = weight;
 			this.eta = eta;
@@ -73,17 +69,19 @@ namespace NeuralNetworks
 			int epochs = 0;
 			const int MAX_EPOCHS = 1000;	//Limiting the number of iterations in the process.
 			bool weightChanged = true;
+			int classIndex;
 			double[] lineData;
 			
 			/*REAL WORK*/
 			while(weightChanged && epochs < MAX_EPOCHS)
 			{
 				weightChanged = false;
-				for(int i=0; i<this.classes; i++) //Class index.
+				for(int i=0; i<this.classMask.Length; i++) //Class index.
 				{
+					classIndex = (int)classMask[i] - 1;
 					for(int j=0; j<trainCount; j++) //Data index.
 					{
-						lineData = VectorTools.trim(this.data[i][j], features);
+						lineData = VectorTools.trim(this.data[classIndex][j], this.featureMask);
 
 						double net = VectorTools.multiply(this.weight, lineData);
 						int sgnOut = ActivationFunctions.signum(net);
@@ -91,7 +89,7 @@ namespace NeuralNetworks
 						if(sgnOut != this.target[i])
 						{
 							weightChanged = true;
-							lineData = VectorTools.trim(this.data[i][j], features);
+							lineData = VectorTools.trim(this.data[classIndex][j], this.featureMask);
 
 							double error = this.target[i] - sgnOut;
 							double[] mulOut = VectorTools.multiply(lineData, error * this.eta);
@@ -104,19 +102,42 @@ namespace NeuralNetworks
 			} //End of outer while.
 		}
 
-		public double test(double[] input)
+		public int[,] test(int testCount)
+		{
+			//The to-be-returned confusion matrix:
+			int[,] confMatrix = new int[this.classMask.Length, this.classMask.Length];
+
+			int startIndex = this.samples - testCount - 1,
+				success = 0,
+				classIndex,
+				resultIndex;
+			double classOut;
+			double[] lineData;
+
+			for(int i=0; i<this.classMask.Length; i++)
+			{
+				classIndex = (int)this.classMask[i] - 1;
+				for(int j=0; j<testCount; j++)
+				{
+					lineData = VectorTools.trim(this.data[classIndex][startIndex + j], this.featureMask);
+					classOut = classify(lineData);
+					if(classOut == this.target[i])
+						success++;
+
+					resultIndex = Array.IndexOf(this.target, (int)classOut);
+					confMatrix[i, resultIndex]++;
+				}
+			}
+
+			return confMatrix;
+		}
+
+		public double classify(double[] input)
 		{
 			double net = VectorTools.multiply(this.weight, input);
 			int sgnOut = ActivationFunctions.signum(net);
 
 			return sgnOut;
-		}
-
-		private void initializeWeight(int length)
-		{
-			this.weight = new double[length];
-			for(int i=0; i < this.weight.Length; i++)
-				this.weight[i] = 1;
 		}
 	}
 }
