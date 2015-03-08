@@ -2,7 +2,7 @@
 
 namespace NeuralNetworks
 {
-	enum DataSetType
+	public enum DataSetType
 	{
 		IRIS
 	}

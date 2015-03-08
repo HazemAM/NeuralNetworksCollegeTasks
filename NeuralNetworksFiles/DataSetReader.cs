@@ -4,15 +4,15 @@ using System.IO;
 
 namespace NeuralNetworks
 {
-	class DataSetReader
+	public class DataSetReader
 	{
 		public readonly DataSetType type;
-		public readonly int classes;
-		public readonly int features;
+		public readonly int classes;	//Number of classes in the data set.
 		public readonly int samples;	//Number of samples per class.
-		public readonly int maxValue;
+		public readonly int features;	//Number of features per sample.
+		public readonly int maxValue;	//The maximum value found in the data set.
 
-		public readonly List<double[]>[] data;
+		public readonly List<double[]>[] data;	//Format: data[class][sample][feature].
 
 		public DataSetReader(string path, DataSetType type)
 		{

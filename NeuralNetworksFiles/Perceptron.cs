@@ -3,29 +3,16 @@ using System.Collections.Generic;
 
 namespace NeuralNetworks
 {
-	class Perceptron
+	public class Perceptron : NeuralNetwork
 	{
-		private double[] target;
-		private double[] weight;
-		private double eta;
-		private List<double[]>[] data;
-		private int samples;	//Number of samples per class.
-		private double[] featureMask;
-		private double[] classMask;
-
 		/// <summary>Create a new perceptron machine.</summary>
 		/// <param name="dataSet">Object holding the dataset to work on.</param>
 		/// <param name="target">The target/goal vector for the training.</param>
 		/// <param name="eta">The learning rate.</param>
 		public Perceptron(DataSetReader dataSet, double[] target, double eta)
+			: base(dataSet, target, eta)
 		{
-			this.target = target;
-			this.data = dataSet.data;
-			this.featureMask = VectorTools.sequence(dataSet.features);
-			this.classMask = VectorTools.sequence(dataSet.classes);
-			this.weight = VectorTools.ones(this.featureMask.Length);
-			this.samples = dataSet.samples;
-			this.eta = eta;
+			//Nothing here.
 		}
 
 		/// <summary>Create a new perceptron machine.</summary>
@@ -33,17 +20,10 @@ namespace NeuralNetworks
 		/// <param name="target">The target/goal vector for the training.</param>
 		/// <param name="eta">The learning rate.</param>
 		/// <param name="featureMask">Set of features to use in the machine.</param>
-		public Perceptron(DataSetReader dataSet, double[] target, double eta, double[] featureMask, double[] classMask){
-			if(featureMask.Length > dataSet.features || featureMask.Length < 1)
-				throw new ArgumentOutOfRangeException("Number of features specified is not applicable");
-
-			this.target = target;
-			this.data = dataSet.data;
-			this.featureMask = featureMask;
-			this.classMask = classMask;
-			this.weight = VectorTools.ones(this.featureMask.Length);
-			this.samples = dataSet.samples;
-			this.eta = eta;
+		public Perceptron(DataSetReader dataSet, double[] target, double eta, double[] featureMask, double[] classMask)
+			: base(dataSet, target, eta, featureMask, classMask)
+		{
+			//Nothing here.
 		}
 
 		/// <summary>Create a new perceptron machine.</summary>
@@ -52,19 +32,14 @@ namespace NeuralNetworks
 		/// <param name="weight">The initial weight vector to start with.</param>
 		/// <param name="eta">The learning rate.</param>
 		public Perceptron(DataSetReader dataSet, double[] target, double[] weight, double eta)
+			: base(dataSet, target, weight, eta)
 		{
-			this.target = target;
-			this.data = dataSet.data;
-			this.featureMask = VectorTools.sequence(dataSet.features);
-			this.classMask = VectorTools.sequence(dataSet.classes);
-			this.samples = dataSet.samples;
-			this.weight = weight;
-			this.eta = eta;
+			//Nothing here.
 		}
 
 		/// <summary>Train the machine using the perceptron algorithm.</summary>
 		/// <param name="trainCount">Number of data set smaples to use in training.</param>
-		public void train(int trainCount)
+		public override void train(int trainCount)
 		{
 			int epochs = 0;
 			const int MAX_EPOCHS = 1000;	//Limiting the number of iterations in the process.
@@ -102,7 +77,9 @@ namespace NeuralNetworks
 			} //End of outer while.
 		}
 
-		public int[,] test(int testCount)
+		/// <summary>Test the machine using the perceptron algorithm.</summary>
+		/// <param name="testCount">Number of data set smaples to use in testing (starting from the end).</param>
+		public override int[,] test(int testCount)
 		{
 			//The to-be-returned confusion matrix:
 			int[,] confMatrix = new int[this.classMask.Length, this.classMask.Length];
@@ -132,7 +109,9 @@ namespace NeuralNetworks
 			return confMatrix;
 		}
 
-		public double classify(double[] input)
+		/// <summary>Classify one sample in the machine using the perceptron algorithm (used after training).</summary>
+		/// <param name="input">The sample to classify</param>
+		public override double classify(double[] input)
 		{
 			double net = VectorTools.multiply(this.weight, input);
 			int sgnOut = ActivationFunctions.signum(net);
