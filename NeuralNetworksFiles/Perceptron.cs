@@ -9,6 +9,7 @@ namespace NeuralNetworks
 		/// <param name="dataSet">Object holding the dataset to work on.</param>
 		/// <param name="target">The target/goal vector for the training.</param>
 		/// <param name="eta">The learning rate.</param>
+		/// <param name="bias">Initial bias value.</param>
 		public Perceptron(DataSetReader dataSet, double[] target, double eta, double bias)
 			: base(dataSet, target, eta, bias)
 		{
@@ -19,6 +20,7 @@ namespace NeuralNetworks
 		/// <param name="dataSet">Object holding the dataset to work on.</param>
 		/// <param name="target">The target/goal vector for the training.</param>
 		/// <param name="eta">The learning rate.</param>
+		/// <param name="bias">Initial bias value.</param>
 		/// <param name="featureMask">Set of features to use in the machine.</param>
 		public Perceptron(DataSetReader dataSet, double[] target, double eta, double bias, double[] featureMask, double[] classMask)
 			: base(dataSet, target, eta, bias, featureMask, classMask)
@@ -31,6 +33,7 @@ namespace NeuralNetworks
 		/// <param name="target">The target/goal vector for the training.</param>
 		/// <param name="weight">The initial weight vector to start with.</param>
 		/// <param name="eta">The learning rate.</param>
+		/// <param name="bias">Initial bias value.</param>
 		public Perceptron(DataSetReader dataSet, double[] target, double[] weight, double eta, double bias)
 			: base(dataSet, target, weight, eta, bias)
 		{

@@ -33,6 +33,7 @@ namespace NeuralNetworks
 			if(this.brush.Length != this.dataSet.classes)
 				throw new ArgumentException("Brushes and number of classes do not match");
 
+			//Real work:
 			featureOne--; featureTwo--;	//Getting features ready for useing as indices.
 
 			Bitmap bitmap = new Bitmap(this.pictureBox.Width, this.pictureBox.Height);
@@ -48,6 +49,29 @@ namespace NeuralNetworks
 				}
 
 			this.pictureBox.Image = bitmap;
+		}
+
+		public void drawLine(double[] classMask, double[] featureMask)
+		{
+			//Checks and getting ready:
+			if(classMask.Length != 2)
+				throw new ArgumentOutOfRangeException("Mask must contain exactly two classes");
+
+			classMask[0]--; classMask[1]--; //For using as indices.
+			int classOne = (int)classMask[0];
+			int classTwo = (int)classMask[1];
+			
+			//Real work:
+			float maxX = (float) VectorTools.max(this.dataSet.data[classOne], featureMask) * factorX;
+			float minX = (float) VectorTools.min(this.dataSet.data[classOne], featureMask) * factorX;
+			float maxY = (float) VectorTools.max(this.dataSet.data[classTwo], featureMask) * factorY;
+			float minY = (float) VectorTools.min(this.dataSet.data[classTwo], featureMask) * factorY;
+
+			Bitmap bitmap = this.pictureBox.Image as Bitmap;
+			Graphics g = Graphics.FromImage(bitmap);
+			Pen pen = new Pen(Color.Black);
+
+			g.DrawLine(pen, minX, minY, maxX, maxY);
 		}
 
 		public void drawPoint(float x, float y, SolidBrush brush){

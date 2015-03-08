@@ -119,5 +119,33 @@ namespace NeuralNetworks
 			Array.Copy(arr, 0, newArr, 1, arr.Length);
 			return newArr;
 		}
+
+		public static double max(System.Collections.Generic.List<double[]> list, double[] featureMask)
+		{
+			double max = double.NegativeInfinity;
+
+			int f; //Feature index.
+			for(int i=0; i < list.Count; i++)
+				for(int j=0; j < featureMask.Length; j++){
+					f = (int)featureMask[j] - 1;
+					max = list[i][f] > max ? list[i][f] : max;
+				}
+
+			return max;
+		}
+
+		public static double min(System.Collections.Generic.List<double[]> list, double[] featureMask)
+		{
+			double min = double.PositiveInfinity;
+
+			int f; //Feature index.
+			for(int i=0; i < list.Count; i++)
+				for(int j=0; j < featureMask.Length; j++){
+					f = (int)featureMask[j] - 1;
+					min = list[i][f] < min ? list[i][f] : min;
+				}
+
+			return min;
+		}
 	}
 }
