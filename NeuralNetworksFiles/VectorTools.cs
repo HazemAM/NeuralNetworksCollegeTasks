@@ -110,5 +110,14 @@ namespace NeuralNetworks
 			accuracy /= matrix.GetLength(0);
 			return accuracy;
 		}
+
+		public static double[] prepend(double[] arr, double p)
+		{
+			double[] newArr = new double[arr.Length + 1];
+			newArr[0] = p;
+
+			Array.Copy(arr, 0, newArr, 1, arr.Length);
+			return newArr;
+		}
 	}
 }

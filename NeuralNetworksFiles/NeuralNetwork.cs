@@ -11,6 +11,7 @@ namespace NeuralNetworks
 		protected double[] target;
 		protected double[] weight;
 		protected double eta;
+		protected double bias;
 		protected List<double[]>[] data;
 		protected int samples;
 		protected double[] featureMask;
@@ -20,18 +21,19 @@ namespace NeuralNetworks
 		/*
 		 * CONSTRUCTORS
 		 */
-		public NeuralNetwork(DataSetReader dataSet, double[] target, double eta)
+		public NeuralNetwork(DataSetReader dataSet, double[] target, double bias, double eta)
 		{
 			this.target = target;
 			this.data = dataSet.data;
 			this.featureMask = VectorTools.sequence(dataSet.features);
 			this.classMask = VectorTools.sequence(dataSet.classes);
-			this.weight = VectorTools.ones(this.featureMask.Length);
+			this.weight = VectorTools.ones(this.featureMask.Length + 1); //+1 for bias.
 			this.samples = dataSet.samples;
 			this.eta = eta;
+			this.bias = bias;
 		}
 
-		public NeuralNetwork(DataSetReader dataSet, double[] target, double eta, double[] featureMask, double[] classMask){
+		public NeuralNetwork(DataSetReader dataSet, double[] target, double eta, double bias, double[] featureMask, double[] classMask){
 			if(featureMask.Length > dataSet.features || featureMask.Length < 1)
 				throw new ArgumentOutOfRangeException("Number of features specified is not applicable");
 
@@ -39,12 +41,13 @@ namespace NeuralNetworks
 			this.data = dataSet.data;
 			this.featureMask = featureMask;
 			this.classMask = classMask;
-			this.weight = VectorTools.ones(this.featureMask.Length);
+			this.weight = VectorTools.ones(this.featureMask.Length + 1); //+1 for bias.
 			this.samples = dataSet.samples;
 			this.eta = eta;
+			this.bias = bias;
 		}
 
-		public NeuralNetwork(DataSetReader dataSet, double[] target, double[] weight, double eta)
+		public NeuralNetwork(DataSetReader dataSet, double[] target, double[] weight, double eta, double bias)
 		{
 			this.target = target;
 			this.data = dataSet.data;
@@ -53,6 +56,7 @@ namespace NeuralNetworks
 			this.samples = dataSet.samples;
 			this.weight = weight;
 			this.eta = eta;
+			this.bias = bias;
 		}
 
 

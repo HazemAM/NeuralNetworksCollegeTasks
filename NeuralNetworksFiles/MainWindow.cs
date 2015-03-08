@@ -33,8 +33,9 @@ namespace NeuralNetworks
 			features = new double[] {(int)numFeatureOne.Value, (int)numFeatureTwo.Value};
 			classes = new double[] {(int)numClassOne.Value, (int)numClassTwo.Value};
 			double eta = 0.75;
+			double bias = 1.0;
 
-			machine = new Perceptron(irisSet, target, eta, features, classes);
+			machine = new Perceptron(irisSet, target, eta, bias, features, classes);
 			machine.train(30);
 			
 			int[,] testMatrix = machine.test(20);

@@ -9,8 +9,8 @@ namespace NeuralNetworks
 		/// <param name="dataSet">Object holding the dataset to work on.</param>
 		/// <param name="target">The target/goal vector for the training.</param>
 		/// <param name="eta">The learning rate.</param>
-		public Perceptron(DataSetReader dataSet, double[] target, double eta)
-			: base(dataSet, target, eta)
+		public Perceptron(DataSetReader dataSet, double[] target, double eta, double bias)
+			: base(dataSet, target, eta, bias)
 		{
 			//Nothing here.
 		}
@@ -20,8 +20,8 @@ namespace NeuralNetworks
 		/// <param name="target">The target/goal vector for the training.</param>
 		/// <param name="eta">The learning rate.</param>
 		/// <param name="featureMask">Set of features to use in the machine.</param>
-		public Perceptron(DataSetReader dataSet, double[] target, double eta, double[] featureMask, double[] classMask)
-			: base(dataSet, target, eta, featureMask, classMask)
+		public Perceptron(DataSetReader dataSet, double[] target, double eta, double bias, double[] featureMask, double[] classMask)
+			: base(dataSet, target, eta, bias, featureMask, classMask)
 		{
 			//Nothing here.
 		}
@@ -31,8 +31,8 @@ namespace NeuralNetworks
 		/// <param name="target">The target/goal vector for the training.</param>
 		/// <param name="weight">The initial weight vector to start with.</param>
 		/// <param name="eta">The learning rate.</param>
-		public Perceptron(DataSetReader dataSet, double[] target, double[] weight, double eta)
-			: base(dataSet, target, weight, eta)
+		public Perceptron(DataSetReader dataSet, double[] target, double[] weight, double eta, double bias)
+			: base(dataSet, target, weight, eta, bias)
 		{
 			//Nothing here.
 		}
@@ -57,6 +57,7 @@ namespace NeuralNetworks
 					for(int j=0; j<trainCount; j++) //Data index.
 					{
 						lineData = VectorTools.trim(this.data[classIndex][j], this.featureMask);
+						lineData = VectorTools.prepend(lineData, this.bias); //Prepend the bias.
 
 						double net = VectorTools.multiply(this.weight, lineData);
 						int sgnOut = ActivationFunctions.signum(net);
@@ -65,6 +66,7 @@ namespace NeuralNetworks
 						{
 							weightChanged = true;
 							lineData = VectorTools.trim(this.data[classIndex][j], this.featureMask);
+							lineData = VectorTools.prepend(lineData, this.bias);
 
 							double error = this.target[i] - sgnOut;
 							double[] mulOut = VectorTools.multiply(lineData, error * this.eta);
@@ -113,6 +115,10 @@ namespace NeuralNetworks
 		/// <param name="input">The sample to classify</param>
 		public override double classify(double[] input)
 		{
+			if(input.Length > this.featureMask.Length)
+				throw new ArgumentOutOfRangeException("Input features is bigger than features in feature mask");
+
+			input = VectorTools.prepend(input, this.bias); //Add the bias.
 			double net = VectorTools.multiply(this.weight, input);
 			int sgnOut = ActivationFunctions.signum(net);
 
