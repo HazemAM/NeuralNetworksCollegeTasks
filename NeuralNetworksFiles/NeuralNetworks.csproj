@@ -47,6 +47,7 @@
     <Compile Include="ActivationFunctions.cs" />
     <Compile Include="DataSetReader.cs" />
     <Compile Include="DataSetType.cs" />
+    <Compile Include="LMS.cs" />
     <Compile Include="MainWindow.cs">
       <SubType>Form</SubType>
     </Compile>

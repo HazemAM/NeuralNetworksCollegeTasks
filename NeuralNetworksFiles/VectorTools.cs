@@ -147,5 +147,43 @@ namespace NeuralNetworks
 
 			return min;
 		}
-	}
+
+
+
+
+        //need to vertify it inits to 0s else i 'll create 0s method for mean and max
+        public static System.Collections.Generic.List<double[]>[] normalize(DataSetReader dataSet)
+        {
+            double[] mean = new double[dataSet.features];
+            double[] max = new double[dataSet.features];
+            System.Collections.Generic.List<double[]>[] temp = dataSet.data;
+            for (int j = 0; j < dataSet.features; j++)
+                for (int k = 0; k < dataSet.classes; k++)
+                    for (int i = 0; i < dataSet.samples; i++)
+                    {
+                        mean[j] += temp[k][i][j];
+                        if (temp[k][i][j] > max[j])
+                            max[j] = temp[k][i][j];
+                    }
+            for (int i = 0; i < dataSet.classes;i++ )
+                mean[i]/=(dataSet.classes*dataSet.samples);
+            for (int j = 0; j < dataSet.features; j++)
+                for (int k = 0; k < dataSet.classes; k++)
+                    for (int i = 0; i < dataSet.samples; i++)
+                    {
+                        temp[k][i][j]=(temp[k][i][j] - mean[j])/max[j];
+                    }
+                return temp;
+        }
+
+        public static double mean(double[] vec)
+        {
+            double size = vec.Length;
+            double res = 0;
+            for (int i = 0; i < size; i++)
+                res += vec[i];
+            res /= size;
+            return res;
+        }
+    }
 }
