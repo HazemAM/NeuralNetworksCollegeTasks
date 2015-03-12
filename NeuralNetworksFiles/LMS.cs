@@ -100,7 +100,6 @@ namespace NeuralNetworks
                 {
                     lineData = VectorTools.trim(this.data[classIndex][startIndex + j], this.featureMask);
                     classOut = classify(lineData);
-                    classOut = getvalue(classOut);
                     if (classOut == this.target[i])
                         success++;
 
@@ -120,7 +119,7 @@ namespace NeuralNetworks
             input = VectorTools.prepend(input, this.bias); //Add the bias.
             double net = VectorTools.multiply(this.weight, input);
 
-            return net;
+            return getvalue(net);
         }
     }
 }
