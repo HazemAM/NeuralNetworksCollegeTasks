@@ -49,6 +49,7 @@ namespace NeuralNetworks
 						lineData = VectorTools.prepend(lineData, this.bias); //Prepend the bias.
 
 						double net = VectorTools.multiply(this.weight, lineData);
+                        net = getvalue(net);
 
                         if (net != this.target[i])
 						{
@@ -70,6 +71,15 @@ namespace NeuralNetworks
 				epochs++;
 			} //End of outer while.
 		}
+
+        private double getvalue(double net)
+        {
+            if (net >= 0)
+                net = 1;
+            else
+                net = -1;
+            return net;
+        }
         
 
         public override int[,] test(int testCount)
@@ -90,10 +100,7 @@ namespace NeuralNetworks
                 {
                     lineData = VectorTools.trim(this.data[classIndex][startIndex + j], this.featureMask);
                     classOut = classify(lineData);
-                    if (classOut >= 0)
-                        classOut = 1;
-                    else
-                        classOut = -1;
+                    classOut = getvalue(classOut);
                     if (classOut == this.target[i])
                         success++;
 
