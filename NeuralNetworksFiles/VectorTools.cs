@@ -185,5 +185,19 @@ namespace NeuralNetworks
             res /= size;
             return res;
         }
+
+        public static double[] get1D(double[][] array)
+        {
+            int D1=array.Length, D2=array[0].Length;
+            double[] res = new double[D1 * D2];
+            int count=0;
+            for(int i=0;i<D1;i++)
+                for (int j = 0; j < D2; j++)
+                {
+                    res[count] = array[i][j];
+                    count++;
+                }
+            return res;
+        }
     }
 }

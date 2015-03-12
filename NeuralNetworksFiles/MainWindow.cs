@@ -11,7 +11,8 @@ namespace NeuralNetworks
 		double[] classes;
 
 		DataSetReader irisSet;
-		Perceptron machine;
+		//Perceptron machine;
+        LMS machine;
 		GraphDrawer graphDrawer;
 		SolidBrush[] irisBrushes = new SolidBrush[]{
 			new SolidBrush(Color.Red),
@@ -35,7 +36,7 @@ namespace NeuralNetworks
 			double eta = 0.75;
 			double bias = 1.0;
 
-			machine = new Perceptron(irisSet, target, eta, bias, features, classes);
+			machine = new LMS(irisSet, target, eta, bias, features, classes);
 			machine.train(30);
 			
 			int[,] testMatrix = machine.test(20);

@@ -29,7 +29,7 @@ namespace NeuralNetworks
             bool moreError = true;
 			const int MAX_EPOCHS = 1000;	//Limiting the number of iterations in the process.
             double minError = 1E-2;
-            double[] error=new double[trainCount];
+            double[][] error=new double[this.classMask.Length][];
             double[] mse = new double[MAX_EPOCHS];
 			bool weightChanged = true;
 			int classIndex;
@@ -41,6 +41,7 @@ namespace NeuralNetworks
 				weightChanged = false;
 				for(int i=0; i<this.classMask.Length; i++) //Class index.
 				{
+                    error[i] = new double[trainCount];
 					classIndex = (int)classMask[i] - 1;
 					for(int j=0; j<trainCount; j++) //Data index.
 					{
@@ -55,14 +56,15 @@ namespace NeuralNetworks
 							lineData = VectorTools.trim(this.data[classIndex][j], this.featureMask);
 							lineData = VectorTools.prepend(lineData, this.bias);
 
-                            error[j] = this.target[i] - net;
-							double[] mulOut = VectorTools.multiply(lineData, error[j] * this.eta);
-                            error[j] = 0.5 * error[j] * error[j];
+                            error[i][j] = this.target[i] - net;
+							double[] mulOut = VectorTools.multiply(lineData, error[i][j] * this.eta);
+                            error[i][j] = 0.5 * error[i][j] * error[i][j];
 							this.weight = VectorTools.sum(this.weight, mulOut);
 						}
 					}
 				} //End of inner for.
-                mse[epochs] = VectorTools.mean(error);
+                double [] temp=VectorTools.get1D(error);
+                mse[epochs] = VectorTools.mean(temp);
                 if (mse[epochs] < minError)
                     moreError = false;
 				epochs++;
@@ -88,6 +90,10 @@ namespace NeuralNetworks
                 {
                     lineData = VectorTools.trim(this.data[classIndex][startIndex + j], this.featureMask);
                     classOut = classify(lineData);
+                    if (classOut >= 0)
+                        classOut = 1;
+                    else
+                        classOut = -1;
                     if (classOut == this.target[i])
                         success++;
 
