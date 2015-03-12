@@ -47,7 +47,7 @@ namespace NeuralNetworks
 		{
 			runIrisPerceptron();
 			graphDrawer.drawGraph((int)numFeatureOne.Value, (int)numFeatureTwo.Value);
-			graphDrawer.drawLine(classes, features);
+			graphDrawer.drawLine(machine);
 		}
 
 		private void graphPicture_MouseClick(object sender, MouseEventArgs e)

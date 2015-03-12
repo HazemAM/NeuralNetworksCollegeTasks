@@ -51,27 +51,37 @@ namespace NeuralNetworks
 			this.pictureBox.Image = bitmap;
 		}
 
-		public void drawLine(double[] classMask, double[] featureMask)
+		public void drawLine(NeuralNetwork network)
 		{
 			//Checks and getting ready:
+			double[] classMask = network.getClassMask(),
+					 featureMask = network.getFeatureMask(),
+					 weight = network.getWeight();
+			double bias = network.getBias(),
+				   weightX = weight[0],
+				   weightY = weight[1];
+
 			if(classMask.Length != 2)
 				throw new ArgumentOutOfRangeException("Mask must contain exactly two classes");
 
 			classMask[0]--; classMask[1]--; //For using as indices.
-			int classOne = (int)classMask[0];
-			int classTwo = (int)classMask[1];
+			int classOne = (int)classMask[0],
+				classTwo = (int)classMask[1];
 			
 			//Real work:
-			float maxX = (float) VectorTools.max(this.dataSet.data[classOne], featureMask) * factorX;
-			float minX = (float) VectorTools.min(this.dataSet.data[classOne], featureMask) * factorX;
-			float maxY = (float) VectorTools.max(this.dataSet.data[classTwo], featureMask) * factorY;
-			float minY = (float) VectorTools.min(this.dataSet.data[classTwo], featureMask) * factorY;
+			double maxX = VectorTools.max(this.dataSet.data[classOne], featureMask),
+				   minX = VectorTools.min(this.dataSet.data[classOne], featureMask);
+
+			double xOne = (minX + weightX + bias) * factorX,
+				   xTwo = (maxX + weightY + bias) * factorX,
+				   yOne = ((-xOne * weightX) / weightY) - (bias / weightY) * factorY, //Derived from: x*w1 + y*w2 = 0.
+				   yTwo = ((-xTwo * weightX) / weightY) - (bias / weightY) * factorY;
 
 			Bitmap bitmap = this.pictureBox.Image as Bitmap;
 			Graphics g = Graphics.FromImage(bitmap);
 			Pen pen = new Pen(Color.Black);
 
-			g.DrawLine(pen, minX, minY, maxX, maxY);
+			g.DrawLine(pen, (float)xOne, (float)yOne, (float)xTwo, (float)yTwo);
 		}
 
 		public void drawPoint(float x, float y, SolidBrush brush){

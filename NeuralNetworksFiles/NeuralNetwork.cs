@@ -61,6 +61,32 @@ namespace NeuralNetworks
 
 
 		/*
+		 * GETTERS
+		 */
+		public double[] getWeight(){
+			int newLength = this.weight.Length - 1;
+			double[] newWeight = new double[newLength];
+
+			//Return raw weight (without bias):
+			Array.Copy(weight, 1, newWeight, 0, newLength);
+
+			return newWeight;
+		}
+
+		public double getBias(){
+			return this.bias;
+		}
+
+		public double[] getClassMask(){
+			return this.classMask;
+		}
+
+		public double[] getFeatureMask(){
+			return this.featureMask;
+		}
+
+
+		/*
 		 * ABSTRACTS
 		 */
 		public abstract void train(int trainCount);
