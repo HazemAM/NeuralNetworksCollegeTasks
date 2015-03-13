@@ -45,13 +45,12 @@ namespace NeuralNetworks
 		public override void train(int trainCount)
 		{
 			int epochs = 0;
-			const int MAX_EPOCHS = 1000;	//Limiting the number of iterations in the process.
 			bool weightChanged = true;
 			int classIndex;
 			double[] lineData;
 			
 			/*REAL WORK*/
-			while(weightChanged && epochs < MAX_EPOCHS)
+			while(weightChanged && epochs < NeuralNetwork.MAX_EPOCHS)
 			{
 				weightChanged = false;
 				for(int i=0; i<this.classMask.Length; i++) //Class index.

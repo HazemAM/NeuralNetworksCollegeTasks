@@ -17,6 +17,8 @@ namespace NeuralNetworks
 		protected double[] featureMask;
 		protected double[] classMask;
 
+		protected const int MAX_EPOCHS = 1000;	//Limiting the number of iterations in the process.
+
 
 		/*
 		 * CONSTRUCTORS

@@ -13,10 +13,17 @@ namespace NeuralNetworks
 		public readonly int maxValue;	//The maximum value found in the data set.
 
 		public readonly List<double[]>[] data;	//Format: data[class][sample][feature].
+		public readonly List<double[]>[] dataNorm;
 
-		public DataSetReader(string path, DataSetType type)
+		//Normalization data:
+		public readonly bool normalized;
+		private double[] mean;
+		private double[] max;
+
+		public DataSetReader(string path, DataSetType type, bool normalizeData)
 		{
 			this.type = type;
+			this.normalized = normalizeData;
 
 			switch(type){
 			case DataSetType.IRIS:
@@ -30,9 +37,16 @@ namespace NeuralNetworks
 			//Initialize data container:
 			data = new List<double[]>[classes];
 			for(int i=0; i<classes; i++)
-					data[i] = new List<double[]>();
+				data[i] = new List<double[]>();
 
+			//Read the data:
 			readData(path);
+
+			//Normalize?
+			if(normalizeData){
+				dataNorm = new List<double[]>[classes];
+				normalize();
+			}
 		}
 
 		private void readData(string path)
@@ -73,6 +87,32 @@ namespace NeuralNetworks
 				return 2;
 			default:
 				throw new FormatException();
+			}
+		}
+
+		private void normalize()
+		{
+			this.mean = new double[this.features];
+			this.max = new double[this.features];
+
+			for(int j = 0; j < this.features; j++)
+				for(int k = 0; k < this.classes; k++)
+					for(int i = 0; i < this.samples; i++){
+						this.mean[j] += this.data[k][i][j];
+						if(this.data[k][i][j] > this.max[j])
+							this.max[j] = this.data[k][i][j];
+					}
+
+			for(int i = 0; i < this.classes; i++)
+				this.mean[i] /= (this.classes * this.samples);
+
+			for(int i = 0; i < this.classes; i++){
+				this.dataNorm[i] = new List<double[]>();
+				for(int j = 0; j < this.samples; j++){
+					this.dataNorm[i].Add(new double[this.data[i][j].Length]);
+					for(int k = 0; k < this.features; k++)
+						this.dataNorm[i][j][k] = (this.data[i][j][k] - this.mean[k]) / this.max[k];
+				}
 			}
 		}
 	}

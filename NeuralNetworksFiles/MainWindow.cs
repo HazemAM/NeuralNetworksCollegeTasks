@@ -24,7 +24,7 @@ namespace NeuralNetworks
 		{
 			InitializeComponent();
 
-			irisSet = new DataSetReader("../../../DataSets/iris.data", DataSetType.IRIS);
+			irisSet = new DataSetReader("../../../DataSets/iris.data", DataSetType.IRIS, true);
 			graphDrawer = new GraphDrawer(irisSet, graphPictureBox, irisBrushes);
 		}
 

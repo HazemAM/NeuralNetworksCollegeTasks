@@ -11,32 +11,37 @@ namespace NeuralNetworks
         public LMS(DataSetReader dataSet, double[] target, double eta, double bias)
 			: base(dataSet, target, eta, bias)
 		{
-            this.data=VectorTools.normalize(dataSet);
+			checkNormalized(dataSet.normalized);
+			this.data = dataSet.dataNorm;
         }
+
         public LMS(DataSetReader dataSet, double[] target, double eta, double bias, double[] featureMask, double[] classMask)
 			: base(dataSet, target, eta, bias, featureMask, classMask)
 		{
-            this.data = VectorTools.normalize(dataSet);
+			checkNormalized(dataSet.normalized);
+			this.data = dataSet.dataNorm;
         }
+
         public LMS(DataSetReader dataSet, double[] target, double[] weight, double eta, double bias)
 			: base(dataSet, target, weight, eta, bias)
 		{
-            this.data = VectorTools.normalize(dataSet);
+			checkNormalized(dataSet.normalized);
+			this.data = dataSet.dataNorm;
         }
+
         public override void train(int trainCount)
         {
             int epochs = 0;
             bool moreError = true;
-			const int MAX_EPOCHS = 1000;	//Limiting the number of iterations in the process.
             double minError = 1E-2;
-            double[][] error=new double[this.classMask.Length][];
-            double[] mse = new double[MAX_EPOCHS];
+            double[][] error = new double[this.classMask.Length][];
+            double[] mse = new double[MAX_EPOCHS];	//Mean square error.
 			bool weightChanged = true;
 			int classIndex;
 			double[] lineData;
 			
 			/*REAL WORK*/
-            while (weightChanged && epochs < MAX_EPOCHS && moreError)
+            while (weightChanged && epochs < NeuralNetwork.MAX_EPOCHS && moreError)
 			{
 				weightChanged = false;
 				for(int i=0; i<this.classMask.Length; i++) //Class index.
@@ -64,7 +69,8 @@ namespace NeuralNetworks
 						}
 					}
 				} //End of inner for.
-                double [] temp=VectorTools.get1D(error);
+
+                double[] temp = VectorTools.get1D(error);
                 mse[epochs] = VectorTools.mean(temp);
                 if (mse[epochs] < minError)
                     moreError = false;
@@ -121,5 +127,11 @@ namespace NeuralNetworks
 
             return getvalue(net);
         }
+
+		private void checkNormalized(bool isNorm)
+		{
+			if(!isNorm)
+				throw new ArgumentException("The dataset must be normalized");
+		}
     }
 }
