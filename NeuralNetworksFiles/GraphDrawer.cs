@@ -23,8 +23,8 @@ namespace NeuralNetworks
 
 		public void drawGraph(int featureOne, int featureTwo)
 		{
-			factorX = this.pictureBox.Width / this.dataSet.maxValue;
-			factorY = this.pictureBox.Height / this.dataSet.maxValue;
+			factorX = this.pictureBox.Width / this.dataSet.globalMax;
+			factorY = this.pictureBox.Height / this.dataSet.globalMax;
 
 			//First checks:
 			if(featureOne > this.dataSet.features || featureTwo > this.dataSet.features ||
@@ -69,19 +69,28 @@ namespace NeuralNetworks
 				classTwo = (int)classMask[1];
 			
 			//Real work:
-			double maxX = VectorTools.max(this.dataSet.data[classOne], featureMask),
-				   minX = VectorTools.min(this.dataSet.data[classOne], featureMask);
+			System.Collections.Generic.List<double[]>[] set =
+				dataSet.normalized ? dataSet.dataNorm : dataSet.data;
+			double maxX = VectorTools.max(set[classOne], featureMask),
+				   minX = VectorTools.min(set[classOne], featureMask);
 
-			double xOne = (minX + weightX + bias) * factorX,
-				   xTwo = (maxX + weightY + bias) * factorX,
-				   yOne = ((-xOne * weightX) / weightY) - (bias / weightY) * factorY, //Derived from: x*w1 + y*w2 = 0.
-				   yTwo = ((-xTwo * weightX) / weightY) - (bias / weightY) * factorY;
+			double xOne = (minX + weightX + bias),
+				   xTwo = (maxX + weightY + bias),
+				   yOne = ((-xOne * weightX) / weightY) - (bias / weightY), //Derived from: x*w1 + y*w2 = 0.
+				   yTwo = ((-xTwo * weightX) / weightY) - (bias / weightY);
+
+			if(dataSet.normalized){
+				double[] newDataOne = dataSet.unNorm(new double[]{xOne, yOne}, featureMask);
+				double[] newDataTwo = dataSet.unNorm(new double[]{xTwo, yTwo}, featureMask);
+				xOne = newDataOne[0]; yOne = newDataOne[1];
+				xTwo = newDataTwo[0]; yTwo = newDataTwo[1];
+			}
 
 			Bitmap bitmap = this.pictureBox.Image as Bitmap;
 			Graphics g = Graphics.FromImage(bitmap);
 			Pen pen = new Pen(Color.Black);
 
-			g.DrawLine(pen, (float)xOne, (float)yOne, (float)xTwo, (float)yTwo);
+			g.DrawLine(pen, (float)xOne * factorX, (float)yOne * factorY, (float)xTwo * factorX, (float)yTwo * factorY);
 		}
 
 		public void drawPoint(float x, float y, SolidBrush brush){
