@@ -27,9 +27,12 @@ namespace NeuralNetworks
 			typeof(LMS)
 		};
 
+		string originalTitle;
+
 		public MainWindow()
 		{
 			InitializeComponent();
+			originalTitle = this.Text;
 			cmbNetworkType.SelectedIndex = 0;
 		}
 
@@ -99,6 +102,14 @@ namespace NeuralNetworks
 		{
 			ComboBox cmb = sender as ComboBox;
 			selectedNetwork = networkType[cmb.SelectedIndex];
+
+			string newTitle = originalTitle + ": ";
+			if(selectedNetwork == typeof(Perceptron))
+				newTitle += "The Perceptron";
+			else if (selectedNetwork == typeof(LMS))
+				newTitle += "Least Mean Square";
+
+			this.Text = newTitle;
 		}
 	}
 }

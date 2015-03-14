@@ -189,7 +189,7 @@
 			this.numEta.TabIndex = 12;
 			this.toolTip.SetToolTip(this.numEta, "Learning rate (eta)");
 			this.numEta.Value = new decimal(new int[] {
-            75,
+            95,
             0,
             0,
             131072});
@@ -305,7 +305,7 @@
 			this.Controls.Add(this.graphPictureBox);
 			this.MaximizeBox = false;
 			this.Name = "MainWindow";
-			this.Text = "Neural Networks: The Perceptron";
+			this.Text = "Neural Networks";
 			((System.ComponentModel.ISupportInitialize)(this.graphPictureBox)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numFeatureOne)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numFeatureTwo)).EndInit();
