@@ -68,6 +68,7 @@ namespace NeuralNetworks
 		private void btnDrawGraph_Click(object sender, EventArgs e)
 		{
 			runIrisNetwork();
+			changeWindowTitle();
 			graphDrawer.drawGraph((int)numFeatureOne.Value, (int)numFeatureTwo.Value);
 			graphDrawer.drawLine(machine);
 		}
@@ -98,11 +99,8 @@ namespace NeuralNetworks
 			graphDrawer.drawPoint(x, y, brushes[brushIndex]);
 		}
 
-		private void cmbNetworkType_SelectedIndexChanged(object sender, EventArgs e)
+		private void changeWindowTitle()
 		{
-			ComboBox cmb = sender as ComboBox;
-			selectedNetwork = networkType[cmb.SelectedIndex];
-
 			string newTitle = originalTitle + ": ";
 			if(selectedNetwork == typeof(Perceptron))
 				newTitle += "The Perceptron";
@@ -110,6 +108,12 @@ namespace NeuralNetworks
 				newTitle += "Least Mean Square";
 
 			this.Text = newTitle;
+		}
+
+		private void cmbNetworkType_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			ComboBox cmb = sender as ComboBox;
+			selectedNetwork = networkType[cmb.SelectedIndex];
 		}
 	}
 }
