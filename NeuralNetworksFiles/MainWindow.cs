@@ -63,6 +63,9 @@ namespace NeuralNetworks
 				x/graphDrawer.getFactorX(),
 				y/graphDrawer.getFactorY()
 			};
+			if(irisSet.normalized)	//Normalize testData if data set is.
+				testData = irisSet.norm(testData, features);
+
 			int newClass = (int)machine.classify(testData);
 
 			int brushIndex = Array.IndexOf(target, newClass);

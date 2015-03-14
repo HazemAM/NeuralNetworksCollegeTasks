@@ -120,6 +120,17 @@ namespace NeuralNetworks
 			return newArr;
 		}
 
+		public static double max(double[] arr)
+		{
+			double size = arr.Length;
+			double max = double.NegativeInfinity;
+
+			for(int i = 0; i < size; i++)
+				max = arr[i] > max ? arr[i] : max;
+
+			return max;
+		}
+
 		public static double max(System.Collections.Generic.List<double[]> list, double[] featureMask)
 		{
 			double max = double.NegativeInfinity;

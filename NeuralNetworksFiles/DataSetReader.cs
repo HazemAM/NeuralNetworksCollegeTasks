@@ -103,7 +103,7 @@ namespace NeuralNetworks
 							this.max[j] = this.data[k][i][j];
 					}
 
-			for(int i = 0; i < this.classes; i++)
+			for(int i = 0; i < this.features; i++)
 				this.mean[i] /= (this.classes * this.samples);
 
 			for(int i = 0; i < this.classes; i++){
@@ -114,6 +114,32 @@ namespace NeuralNetworks
 						this.dataNorm[i][j][k] = (this.data[i][j][k] - this.mean[k]) / this.max[k];
 				}
 			}
+		}
+
+		/// <summary>Normalize a single value using the database normalization parameters.</summary>
+		/// <returns>The normalized value.</returns>
+		public double[] norm(double[] value, double[] featureMask)
+		{
+			double[] result = new double[value.Length];
+			for(int i=0; i<result.Length; i++){
+				int iF = (int)featureMask[i] - 1; //Feature index.
+				result[i] = (value[i] - mean[iF]) / max[iF];
+			}
+
+			return result;
+		}
+
+		/// <summary>Un-normalize a single value using the database normalization parameters.</summary>
+		/// <returns>The un-normalized value.</returns>
+		public double[] unNorm(double[] value, double[] featureMask)
+		{
+			double[] result = new double[value.Length];
+			for(int i=0; i<result.Length; i++){
+				int iF = (int)featureMask[i] - 1; //Feature index.
+				result[i] = (value[i] * max[iF]) + mean[iF];
+			}
+
+			return result;
 		}
 	}
 }
