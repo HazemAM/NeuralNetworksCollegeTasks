@@ -11,8 +11,9 @@ namespace NeuralNetworks
 		double[] classes;
 
 		DataSetReader irisSet;
-		//Perceptron machine;
-        LMS machine;
+
+		NeuralNetwork machine;
+
 		GraphDrawer graphDrawer;
 		SolidBrush[] irisBrushes = new SolidBrush[]{
 			new SolidBrush(Color.Red),
@@ -20,25 +21,42 @@ namespace NeuralNetworks
 			new SolidBrush(Color.Blue),
 		};
 
+		Type selectedNetwork;
+		Type[] networkType = new Type[]{
+			typeof(Perceptron),
+			typeof(LMS)
+		};
+
 		public MainWindow()
 		{
 			InitializeComponent();
-
-			irisSet = new DataSetReader("../../../DataSets/iris.data", DataSetType.IRIS, true);
-			graphDrawer = new GraphDrawer(irisSet, graphPictureBox, irisBrushes);
+			cmbNetworkType.SelectedIndex = 0;
 		}
 
-		private void runIrisPerceptron()
+		private void runIrisNetwork()
 		{
+			//Getting data set ready:
+			bool normalize = selectedNetwork == typeof(LMS);
+			irisSet = new DataSetReader("../../../DataSets/iris.data", DataSetType.IRIS, normalize);
+			graphDrawer = new GraphDrawer(irisSet, graphPictureBox, irisBrushes);
+
+			//Network parameters:
 			target = new double[] {-1, 1};
 			features = new double[] {(int)numFeatureOne.Value, (int)numFeatureTwo.Value};
 			classes = new double[] {(int)numClassOne.Value, (int)numClassTwo.Value};
-			double eta = 0.75;
+			double eta = (double)numEta.Value;
 			double bias = 1.0;
 
-			machine = new LMS(irisSet, target, eta, bias, features, classes);
+			//Selecting the right network:
+			if(selectedNetwork == typeof(Perceptron))
+				machine = new Perceptron(irisSet, target, eta, bias, features, classes);
+			else if(selectedNetwork == typeof(LMS))
+				machine = new LMS(irisSet, target, eta, bias, features, classes);
+			
+			//Train the network:
 			machine.train(30);
 			
+			//Test the network:
 			int[,] testMatrix = machine.test(20);
 			UiTools.drawMatrix(dataGridView, testMatrix);
 			lblAccuracy.Text = VectorTools.confusionAccuracy(testMatrix).ToString();
@@ -46,7 +64,7 @@ namespace NeuralNetworks
 
 		private void btnDrawGraph_Click(object sender, EventArgs e)
 		{
-			runIrisPerceptron();
+			runIrisNetwork();
 			graphDrawer.drawGraph((int)numFeatureOne.Value, (int)numFeatureTwo.Value);
 			graphDrawer.drawLine(machine);
 		}
@@ -75,6 +93,12 @@ namespace NeuralNetworks
 			};
 
 			graphDrawer.drawPoint(x, y, brushes[brushIndex]);
+		}
+
+		private void cmbNetworkType_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			ComboBox cmb = sender as ComboBox;
+			selectedNetwork = networkType[cmb.SelectedIndex];
 		}
 	}
 }

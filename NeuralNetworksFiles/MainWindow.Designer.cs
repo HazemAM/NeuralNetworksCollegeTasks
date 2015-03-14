@@ -35,6 +35,7 @@
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.numClassTwo = new System.Windows.Forms.NumericUpDown();
 			this.numClassOne = new System.Windows.Forms.NumericUpDown();
+			this.numEta = new System.Windows.Forms.NumericUpDown();
 			this.btnDrawGraph = new System.Windows.Forms.Button();
 			this.label2 = new System.Windows.Forms.Label();
 			this.label1 = new System.Windows.Forms.Label();
@@ -42,11 +43,13 @@
 			this.label4 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
 			this.lblAccuracy = new System.Windows.Forms.Label();
+			this.cmbNetworkType = new System.Windows.Forms.ComboBox();
 			((System.ComponentModel.ISupportInitialize)(this.graphPictureBox)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numFeatureOne)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numFeatureTwo)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numClassTwo)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.numClassOne)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numEta)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
 			this.SuspendLayout();
 			// 
@@ -160,6 +163,37 @@
             0,
             0});
 			// 
+			// numEta
+			// 
+			this.numEta.BackColor = System.Drawing.SystemColors.Window;
+			this.numEta.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.numEta.DecimalPlaces = 2;
+			this.numEta.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+			this.numEta.Location = new System.Drawing.Point(419, 12);
+			this.numEta.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+			this.numEta.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+			this.numEta.Name = "numEta";
+			this.numEta.Size = new System.Drawing.Size(54, 20);
+			this.numEta.TabIndex = 12;
+			this.toolTip.SetToolTip(this.numEta, "Learning rate (eta)");
+			this.numEta.Value = new decimal(new int[] {
+            75,
+            0,
+            0,
+            131072});
+			// 
 			// btnDrawGraph
 			// 
 			this.btnDrawGraph.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -202,18 +236,18 @@
 			this.dataGridView.BorderStyle = System.Windows.Forms.BorderStyle.None;
 			this.dataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dataGridView.ColumnHeadersVisible = false;
-			this.dataGridView.Location = new System.Drawing.Point(292, 32);
+			this.dataGridView.Location = new System.Drawing.Point(292, 223);
 			this.dataGridView.Name = "dataGridView";
 			this.dataGridView.ReadOnly = true;
 			this.dataGridView.RowHeadersVisible = false;
-			this.dataGridView.Size = new System.Drawing.Size(210, 79);
+			this.dataGridView.Size = new System.Drawing.Size(210, 45);
 			this.dataGridView.TabIndex = 8;
 			// 
 			// label4
 			// 
 			this.label4.AutoSize = true;
 			this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label4.Location = new System.Drawing.Point(289, 12);
+			this.label4.Location = new System.Drawing.Point(289, 207);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(107, 13);
 			this.label4.TabIndex = 9;
@@ -230,11 +264,24 @@
 			// lblAccuracy
 			// 
 			this.lblAccuracy.AutoSize = true;
-			this.lblAccuracy.Location = new System.Drawing.Point(395, 12);
+			this.lblAccuracy.Location = new System.Drawing.Point(395, 207);
 			this.lblAccuracy.Name = "lblAccuracy";
 			this.lblAccuracy.Size = new System.Drawing.Size(13, 13);
 			this.lblAccuracy.TabIndex = 11;
 			this.lblAccuracy.Text = "--";
+			// 
+			// cmbNetworkType
+			// 
+			this.cmbNetworkType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.cmbNetworkType.FormattingEnabled = true;
+			this.cmbNetworkType.Items.AddRange(new object[] {
+            "Perceptron",
+            "Least Mean Square"});
+			this.cmbNetworkType.Location = new System.Drawing.Point(292, 12);
+			this.cmbNetworkType.Name = "cmbNetworkType";
+			this.cmbNetworkType.Size = new System.Drawing.Size(121, 21);
+			this.cmbNetworkType.TabIndex = 13;
+			this.cmbNetworkType.SelectedIndexChanged += new System.EventHandler(this.cmbNetworkType_SelectedIndexChanged);
 			// 
 			// MainWindow
 			// 
@@ -242,6 +289,8 @@
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.Window;
 			this.ClientSize = new System.Drawing.Size(514, 331);
+			this.Controls.Add(this.cmbNetworkType);
+			this.Controls.Add(this.numEta);
 			this.Controls.Add(this.lblAccuracy);
 			this.Controls.Add(this.label3);
 			this.Controls.Add(this.label4);
@@ -262,6 +311,7 @@
 			((System.ComponentModel.ISupportInitialize)(this.numFeatureTwo)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numClassTwo)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.numClassOne)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numEta)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
@@ -283,6 +333,8 @@
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.Label label3;
 		private System.Windows.Forms.Label lblAccuracy;
+		private System.Windows.Forms.NumericUpDown numEta;
+		private System.Windows.Forms.ComboBox cmbNetworkType;
 	}
 }
 
