@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeuralNetworks.MultilayerNetworks;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -34,6 +35,24 @@ namespace NeuralNetworks
 			InitializeComponent();
 			originalTitle = this.Text;
 			cmbNetworkType.SelectedIndex = 0;
+
+
+
+			/* MLP TESTING START */
+			Layer hidden = new Layer(
+				new Neuron[] {
+					new Neuron(new double[] {-0.3, 0.21, 0.15}, 1, ActivationFunctions.sigmoid),
+					new Neuron(new double[] {0.25, -0.4, 0.1}, 1, ActivationFunctions.sigmoid)
+				}
+			);
+			Layer output = new Layer(
+				new Neuron(new double[] {-0.4, -0.2, 0.3}, 1, ActivationFunctions.sigmoid)
+			);
+
+			MultilayerNeuralNetwork network = new BackPropagation(new Layer[] {hidden, output});
+			network.train();
+			/* MLP TESTING END */
+
 		}
 
 		private void runIrisNetwork()
