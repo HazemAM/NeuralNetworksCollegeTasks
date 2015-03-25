@@ -27,5 +27,12 @@ namespace NeuralNetworks
 			else 
 				return -1;
 		}
+
+		/// <summary>The sigmoid function.</summary>
+		public static double sigmoid(double num)
+		{
+			double exp = Math.Exp(-1 * num);
+			return (1 / (1 + exp));
+		}	
 	}
 }
