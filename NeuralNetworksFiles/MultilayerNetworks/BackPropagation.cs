@@ -28,13 +28,13 @@ namespace NeuralNetworks.MultilayerNetworks
 				outputValue[i] = new double[layer[i].neuron.Length]; //Define inner array of layer's neuron count.
 				for(int j=0; j < layer[i].neuron.Length; j++)
 				{
-					tempNet = layer[i].neuron[j].weight[0] * layer[i].neuron[j].bias; //Interaction with bias.
+					tempNet = layer[i].neuron[j].biasWeight * layer[i].neuron[j].bias; //Interaction with bias.
 					
 					isFirstLayer = (i == 0); //Indicates: This is the first layer after input layer.
 					previousLayerNeurons = isFirstLayer ? input.Length : layer[i - 1].neuron.Length; //If this is first layer after input,
 					for(int k=0; k < previousLayerNeurons; k++){									 //interact with input layer. Else, interact with previous layer.
 						tempMult = isFirstLayer ? input[k] : outputValue[i - 1][k]; //If this is the first layer, multiply with input layer.
-						tempNet += layer[i].neuron[j].weight[k + 1] * tempMult; //+1 for bias.
+						tempNet += layer[i].neuron[j].weight[k] * tempMult; //+1 for bias.
 					}
 
 					outputValue[i][j] = layer[i].neuron[j].activationFunction(tempNet); //Calculating net for current neuron.
