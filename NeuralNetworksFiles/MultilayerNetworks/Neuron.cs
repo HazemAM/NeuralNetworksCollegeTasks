@@ -10,13 +10,16 @@ namespace NeuralNetworks.MultilayerNetworks
 		public readonly double bias;
 		public readonly double biasWeight;
 		public readonly ActivationFunction activationFunction;
+		public readonly ActivationFunction activationFunctionDerivative;
 
-		public Neuron(double[] weights, double bias, double biasWeight, ActivationFunction activationFunction)
+		public Neuron(double[] weights, double bias, double biasWeight,
+			ActivationFunction activationFunction, ActivationFunction activationFunctionDerivative)
 		{
 			this.weight = weights;
 			this.bias = bias;
 			this.biasWeight = biasWeight;
 			this.activationFunction = activationFunction;
+			this.activationFunctionDerivative = activationFunctionDerivative;
 		}
 	}
 }

@@ -41,12 +41,12 @@ namespace NeuralNetworks
 			/* MLP TESTING START */
 			Layer hidden = new Layer(
 				new Neuron[] {
-					new Neuron(new double[] {0.21, 0.15}, 1, -0.3, ActivationFunctions.sigmoid),
-					new Neuron(new double[] {-0.4, 0.1}, 1, 0.25, ActivationFunctions.sigmoid)
+					new Neuron(new double[] {0.21, 0.15}, 1, -0.3, ActivationFunctions.sigmoid, ActivationFunctions.sigmoidDiff),
+					new Neuron(new double[] {-0.4, 0.1}, 1, 0.25, ActivationFunctions.sigmoid, ActivationFunctions.sigmoidDiff)
 				}
 			);
 			Layer output = new Layer(
-				new Neuron(new double[] {-0.2, 0.3}, 1, -0.4, ActivationFunctions.sigmoid)
+				new Neuron(new double[] {-0.2, 0.3}, 1, -0.4, ActivationFunctions.sigmoid, ActivationFunctions.sigmoidDiff)
 			);
 
 			MultilayerNeuralNetwork network = new BackPropagation(new Layer[] {hidden, output});

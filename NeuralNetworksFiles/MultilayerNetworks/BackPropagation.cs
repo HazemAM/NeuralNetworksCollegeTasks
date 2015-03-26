@@ -32,7 +32,10 @@ namespace NeuralNetworks.MultilayerNetworks
 					
 					isFirstLayer = (i == 0); //Indicates: This is the first layer after input layer.
 					previousLayerNeurons = isFirstLayer ? input.Length : layer[i - 1].neuron.Length; //If this is first layer after input,
-					for(int k=0; k < previousLayerNeurons; k++){									 //interact with input layer. Else, interact with previous layer.
+					for(int k=0; k < previousLayerNeurons; k++){ //interact with input layer. Else, interact with previous layer.
+						if(layer[i].neuron[j].weight.Length != previousLayerNeurons)
+							throw new ArgumentException("Neuron must have weight length of the previous layer's neurons");
+
 						tempMult = isFirstLayer ? input[k] : outputValue[i - 1][k]; //If this is the first layer, multiply with input layer.
 						tempNet += layer[i].neuron[j].weight[k] * tempMult; //+1 for bias.
 					}

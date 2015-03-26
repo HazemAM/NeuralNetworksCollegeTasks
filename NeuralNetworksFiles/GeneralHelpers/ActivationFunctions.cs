@@ -33,6 +33,12 @@ namespace NeuralNetworks
 		{
 			double exp = Math.Exp(-1 * num);
 			return (1 / (1 + exp));
-		}	
+		}
+
+		/// <summary>The sigmoid function.</summary>
+		public static double sigmoidDiff(double num)
+		{
+			return sigmoid(num) * (1 - sigmoid(num));
+		}
 	}
 }
