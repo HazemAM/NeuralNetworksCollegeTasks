@@ -49,7 +49,10 @@ namespace NeuralNetworks
 				new Neuron(new double[] {-0.2, 0.3}, 1, -0.4, ActivationFunctions.sigmoid, ActivationFunctions.sigmoidDiff)
 			);
 
-			MultilayerNeuralNetwork network = new BackPropagation(new Layer[] {hidden, output}, 0.75);
+			irisSet = new DataSetReader("../../../DataSets/iris.data", DataSetType.IRIS, true);
+			double[] target = new double[] {0};
+
+			MultilayerNeuralNetwork network = new BackPropagation(new Layer[] { hidden, output }, irisSet, target, 0.75);
 			network.train();
 			/* MLP TESTING END */
 

@@ -4,8 +4,8 @@ namespace NeuralNetworks.MultilayerNetworks
 {
 	public class BackPropagation : MultilayerNeuralNetwork
 	{
-		public BackPropagation(Layer[] layers, double eta)
-			: base(layers, eta)
+		public BackPropagation(Layer[] layers, DataSetReader dataSet, double[] target, double eta)
+			: base(layers, dataSet, target, eta)
 		{
 			//Nothing here.
 		}
@@ -13,11 +13,10 @@ namespace NeuralNetworks.MultilayerNetworks
 		public override void train(){
 			int epochs = 0;
 
-			double[][] outputValue,
-					   error;
+			double[][] outputValue,	//Holding output data for every iteration.
+					   error;		//Holding error data for every iteration.
 
-			double[] input = new double[] {0, 0},	//Holding output data for every iteration.
-					 target = new double[] {0};		//Holding error data for every iteration.
+			double[] input = new double[] {0, 0};
 
 			while(epochs < MultilayerNeuralNetwork.MAX_EPOCHS)
 			{
@@ -45,7 +44,7 @@ namespace NeuralNetworks.MultilayerNetworks
 								//TODO: Check first layer's neurons too (when i==0).
 
 							tempMult = isFirstLayer ? input[k] : outputValue[i - 1][k]; //If this is the first layer, multiply with input layer.
-							tempNet += this.layer[i].neuron[j].weight[k] * tempMult; //+1 for bias.
+							tempNet += this.layer[i].neuron[j].weight[k] * tempMult;
 						}
 
 						outputValue[i][j] = this.layer[i].neuron[j].activationFunction(tempNet); //Calculating net for current neuron.
