@@ -35,10 +35,22 @@ namespace NeuralNetworks
 			return (1 / (1 + exp));
 		}
 
-		/// <summary>The sigmoid function.</summary>
+		/// <summary>The derivative of the sigmoid function.</summary>
 		public static double sigmoidDiff(double num)
 		{
 			return sigmoid(num) * (1 - sigmoid(num));
+		}
+
+		/// <summary>The tanh function.</summary>
+		public static double tanh(double num)
+		{
+			return Math.Tanh(num);
+		}
+
+		/// <summary>The derivative of the tanh function.</summary>
+		public static double tanhDiff(double num)
+		{
+			return (1 - tanh(num)) * (1 + tanh(num));
 		}
 	}
 }
