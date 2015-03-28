@@ -8,7 +8,7 @@ namespace NeuralNetworks.MultilayerNetworks
 
 		public readonly double[] weight;
 		public readonly double bias;
-		public readonly double biasWeight;
+		public double biasWeight;
 		public readonly ActivationFunction activationFunction;
 		public readonly ActivationFunction activationFunctionDerivative;
 
