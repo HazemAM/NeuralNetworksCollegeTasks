@@ -10,6 +10,8 @@ namespace NeuralNetworks.MultilayerNetworks
 		protected Layer[] layer;
 		protected double eta;
 
+		protected const int MAX_EPOCHS = 500;
+
 
 		/*
 		 * CONSTRUCTORS
