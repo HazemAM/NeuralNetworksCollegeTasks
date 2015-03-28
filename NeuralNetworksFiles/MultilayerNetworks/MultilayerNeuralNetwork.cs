@@ -22,6 +22,9 @@ namespace NeuralNetworks.MultilayerNetworks
 		 */
 		public MultilayerNeuralNetwork(Layer[] layers, DataSetReader dataSet, double[] target, double eta)
 		{
+			if(target.Length != dataSet.classes)
+				throw new ArgumentOutOfRangeException("Target must have length equal to dataset classes");
+
 			this.layer = layers;
 			this.data = dataSet.data;
 			this.samples = dataSet.samples;
@@ -33,6 +36,6 @@ namespace NeuralNetworks.MultilayerNetworks
 		/*
 		 * ABSTRACTS
 		 */
-		public abstract void train();
+		public abstract void train(int trainCount);
 	}
 }

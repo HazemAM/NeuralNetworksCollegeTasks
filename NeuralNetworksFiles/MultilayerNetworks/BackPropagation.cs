@@ -10,9 +10,9 @@ namespace NeuralNetworks.MultilayerNetworks
 			//Nothing here.
 		}
 
-		public override void train(){
+		public override void train(int trainCount)
+		{
 			int epochs = 0;
-
 			double[][] outputValue,	//Holding output data for every iteration.
 					   error;		//Holding error data for every iteration.
 
@@ -32,14 +32,14 @@ namespace NeuralNetworks.MultilayerNetworks
 				bool isFirstLayer = true;
 				for(int i=0; i < this.layer.Length; i++) //The layers loop.
 				{
-					outputValue[i] = new double[this.layer[i].neuron.Length]; //Define output inner array of layer's neuron count.
-					for(int j=0; j < this.layer[i].neuron.Length; j++) //The neurons loop (for each layer).
+					outputValue[i] = new double[this.layer[i].nodes]; //Define output inner array of layer's neuron count.
+					for(int j=0; j < this.layer[i].nodes; j++) //The neurons loop (for each layer).
 					{
 						tempNet = this.layer[i].neuron[j].biasWeight * this.layer[i].neuron[j].bias; //Interaction with bias.					
 						isFirstLayer = (i == 0); //Indicates: This is the first layer after input layer.
 
 						for(int k=0; k < this.layer[i].neuron[j].weight.Length; k++){
-							if(i > 0 && this.layer[i].neuron[j].weight.Length != this.layer[i - 1].neuron.Length) //In case weights doesn't equal previous layer's neurons.
+							if(i > 0 && this.layer[i].neuron[j].weight.Length != this.layer[i - 1].nodes) //In case weights doesn't equal previous layer's neurons.
 								throw new ArgumentException("Neuron must have weight length of the previous layer's neurons");
 								//TODO: Check first layer's neurons too (when i==0).
 
@@ -55,7 +55,7 @@ namespace NeuralNetworks.MultilayerNetworks
 				bool isTargetEqualsOutput = true;
 				Layer outputLayer = this.layer[this.layer.Length - 1];
 				double[] outputLayerNet = outputValue[outputValue.Length - 1];
-				for(int i=0; i < outputLayer.neuron.Length; i++) //Check if all neurons in output layer equals the corresponding target.
+				for(int i=0; i < outputLayer.nodes; i++) //Check if all neurons in output layer equals the corresponding target.
 					if((isTargetEqualsOutput = (target[i] == outputLayerNet[i])) == false) break; //Break on first (target != output).
 
 				if(isTargetEqualsOutput)
@@ -70,10 +70,10 @@ namespace NeuralNetworks.MultilayerNetworks
 				double tempPlus;
 				for(int i = this.layer.Length - 1; i >= 0; i--) //The layers loop, REVERSED.
 				{
-					error[i] = new double[this.layer[i].neuron.Length]; //Define error inner array of layer's neuron count.
+					error[i] = new double[this.layer[i].nodes]; //Define error inner array of layer's neuron count.
 					
 					isOutputLayer = (i == this.layer.Length - 1);
-					for(int j=0; j < this.layer[i].neuron.Length; j++) //The neurons loop (for each layer).
+					for(int j=0; j < this.layer[i].nodes; j++) //The neurons loop (for each layer).
 					{
 						error[i][j] = this.layer[i].neuron[j].activationFunctionDerivative(outputValue[i][j]);
 
@@ -98,7 +98,7 @@ namespace NeuralNetworks.MultilayerNetworks
 				for(int i=0; i < this.layer.Length; i++) //The layers loop.
 				{
 					isFirstLayer = (i == 0); //Indicates: This is the first layer after input layer.
-					for(int j=0; j < this.layer[i].neuron.Length; j++) //The neurons loop (for each layer).
+					for(int j=0; j < this.layer[i].nodes; j++) //The neurons loop (for each layer).
 					{
 						this.layer[i].neuron[j].biasWeight += this.eta * error[i][j] * this.layer[i].neuron[j].bias; //Update bias weight.
 

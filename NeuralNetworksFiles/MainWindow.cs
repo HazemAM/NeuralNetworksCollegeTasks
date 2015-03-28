@@ -53,7 +53,7 @@ namespace NeuralNetworks
 			double[] target = new double[] {0};
 
 			MultilayerNeuralNetwork network = new BackPropagation(new Layer[] { hidden, output }, irisSet, target, 0.75);
-			network.train();
+			network.train(50);
 			/* MLP TESTING END */
 
 		}
