@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace NeuralNetworks.MultilayerNetworks
 {
@@ -9,10 +8,9 @@ namespace NeuralNetworks.MultilayerNetworks
 		 * FIELDS
 		 */
 		protected Layer[] layer;
-		protected List<double[]>[] data;
+		protected DataSetReader dataSet;
 		protected double[] target;
 		protected double eta;
-		protected int samples;
 
 		protected const int MAX_EPOCHS = 500;
 
@@ -26,8 +24,7 @@ namespace NeuralNetworks.MultilayerNetworks
 				throw new ArgumentOutOfRangeException("Target must have length equal to dataset classes");
 
 			this.layer = layers;
-			this.data = dataSet.data;
-			this.samples = dataSet.samples;
+			this.dataSet = dataSet;
 			this.target = target;
 			this.eta = eta;
 		}
