@@ -8,14 +8,16 @@ namespace NeuralNetworks.MultilayerNetworks
 		 * FIELDS
 		 */
 		protected Layer[] layer;
+		protected double eta;
 
 
 		/*
 		 * CONSTRUCTORS
 		 */
-		public MultilayerNeuralNetwork(Layer[] layers)
+		public MultilayerNeuralNetwork(Layer[] layers, double eta)
 		{
 			this.layer = layers;
+			this.eta = eta;
 		}
 
 

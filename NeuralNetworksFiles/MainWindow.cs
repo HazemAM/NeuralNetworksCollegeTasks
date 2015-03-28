@@ -49,7 +49,7 @@ namespace NeuralNetworks
 				new Neuron(new double[] {-0.2, 0.3}, 1, -0.4, ActivationFunctions.sigmoid, ActivationFunctions.sigmoidDiff)
 			);
 
-			MultilayerNeuralNetwork network = new BackPropagation(new Layer[] {hidden, output});
+			MultilayerNeuralNetwork network = new BackPropagation(new Layer[] {hidden, output}, 0.75);
 			network.train();
 			/* MLP TESTING END */
 
