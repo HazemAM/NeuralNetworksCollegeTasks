@@ -23,7 +23,7 @@ namespace NeuralNetworks.MultilayerNetworks
 				{
 					for(int s=0; s < trainCount; s++) //Sample index.
 					{
-						input = this.dataSet.data[c][s];
+						input = this.dataSet.dataNorm[c][s];
 						outputValue = new double[this.layer.Length][];
 						error = new double[this.layer.Length][];
 
@@ -118,6 +118,12 @@ namespace NeuralNetworks.MultilayerNetworks
 				/* END OF CURRENT EPOCH */
 				epochs++;
 			} //End of mother loop.
+		}
+
+		public override double classify(double[] input)
+		{
+			//TODO: The whole function using the first forward step only.
+			throw new NotImplementedException();
 		}
 	}
 }

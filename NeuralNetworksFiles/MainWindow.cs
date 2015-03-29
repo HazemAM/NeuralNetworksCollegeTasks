@@ -56,10 +56,11 @@ namespace NeuralNetworks
 			);
 
 			irisSet = new DataSetReader("../../../DataSets/iris.data", DataSetType.IRIS, true);
-			double[] target = new double[] {0, 0.5, 1};
+			double[] target = new double[] {0.5, 0.5, 0.5};
 
 			MultilayerNeuralNetwork network = new BackPropagation(new Layer[] { hidden, output }, irisSet, target, 0.75);
 			network.train(50);
+			//network.classify(new double[] {5.7,2.9,4.2,1.3});
 			/* MLP TESTING END */
 
 		}

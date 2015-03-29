@@ -34,5 +34,6 @@ namespace NeuralNetworks.MultilayerNetworks
 		 * ABSTRACTS
 		 */
 		public abstract void train(int trainCount);
+		public abstract double classify(double[] input);
 	}
 }
