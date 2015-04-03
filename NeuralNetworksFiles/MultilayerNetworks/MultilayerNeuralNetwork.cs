@@ -11,13 +11,13 @@ namespace NeuralNetworks.MultilayerNetworks
 		protected DataSetReader dataSet;
 		protected double eta;
 
-		protected const int MAX_EPOCHS = 500;
+		protected int maxEpochs;
 
 
 		/*
 		 * CONSTRUCTORS
 		 */
-		public MultilayerNeuralNetwork(Layer[] layers, DataSetReader dataSet, double eta)
+		public MultilayerNeuralNetwork(Layer[] layers, DataSetReader dataSet, double eta, int maxEpochs)
 		{
 			if(layers[layers.Length - 1].nodes != dataSet.classes)
 				throw new ArgumentOutOfRangeException("Output layer's neurons and dataset classes must have the same length ");
@@ -25,6 +25,7 @@ namespace NeuralNetworks.MultilayerNetworks
 			this.layer = layers;
 			this.dataSet = dataSet;
 			this.eta = eta;
+			this.maxEpochs = maxEpochs;
 		}
 
 

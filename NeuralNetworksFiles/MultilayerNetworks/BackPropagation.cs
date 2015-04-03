@@ -4,8 +4,8 @@ namespace NeuralNetworks.MultilayerNetworks
 {
 	public class BackPropagation : MultilayerNeuralNetwork
 	{
-		public BackPropagation(Layer[] layers, DataSetReader dataSet, double eta)
-			: base(layers, dataSet, eta)
+		public BackPropagation(Layer[] layers, DataSetReader dataSet, double eta, int maxEpochs)
+			: base(layers, dataSet, eta, maxEpochs)
 		{
 			//Nothing here.
 		}
@@ -17,7 +17,7 @@ namespace NeuralNetworks.MultilayerNetworks
 					   error;		//Holding error data for every iteration.
 			double[] input;			//Holding input for every sample.
 
-			while(epochs < MultilayerNeuralNetwork.MAX_EPOCHS)
+			while(epochs < this.maxEpochs)
 			{
 				for(int c=0; c < this.dataSet.classes; c++) //Class index.
 				{

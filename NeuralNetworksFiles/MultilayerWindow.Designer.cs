@@ -33,8 +33,10 @@
 			this.label4 = new System.Windows.Forms.Label();
 			this.gridConfMatrix = new System.Windows.Forms.DataGridView();
 			this.btnStartMachine = new System.Windows.Forms.Button();
+			this.numMaxEpochs = new System.Windows.Forms.NumericUpDown();
 			((System.ComponentModel.ISupportInitialize)(this.numEta)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.gridConfMatrix)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.numMaxEpochs)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// numEta
@@ -48,7 +50,7 @@
             0,
             0,
             65536});
-			this.numEta.Location = new System.Drawing.Point(127, 191);
+			this.numEta.Location = new System.Drawing.Point(99, 191);
 			this.numEta.Maximum = new decimal(new int[] {
             1,
             0,
@@ -63,7 +65,7 @@
 			this.numEta.Size = new System.Drawing.Size(54, 20);
 			this.numEta.TabIndex = 17;
 			this.numEta.Value = new decimal(new int[] {
-            75,
+            15,
             0,
             0,
             131072});
@@ -120,12 +122,43 @@
 			this.btnStartMachine.UseVisualStyleBackColor = true;
 			this.btnStartMachine.Click += new System.EventHandler(this.btnStartMachine_Click);
 			// 
+			// numMaxEpochs
+			// 
+			this.numMaxEpochs.Anchor = System.Windows.Forms.AnchorStyles.None;
+			this.numMaxEpochs.BackColor = System.Drawing.SystemColors.Window;
+			this.numMaxEpochs.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.numMaxEpochs.Increment = new decimal(new int[] {
+            50,
+            0,
+            0,
+            0});
+			this.numMaxEpochs.Location = new System.Drawing.Point(159, 191);
+			this.numMaxEpochs.Maximum = new decimal(new int[] {
+            90000,
+            0,
+            0,
+            0});
+			this.numMaxEpochs.Minimum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+			this.numMaxEpochs.Name = "numMaxEpochs";
+			this.numMaxEpochs.Size = new System.Drawing.Size(54, 20);
+			this.numMaxEpochs.TabIndex = 18;
+			this.numMaxEpochs.Value = new decimal(new int[] {
+            500,
+            0,
+            0,
+            0});
+			// 
 			// MultilayerWindow
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackColor = System.Drawing.SystemColors.Window;
 			this.ClientSize = new System.Drawing.Size(309, 275);
+			this.Controls.Add(this.numMaxEpochs);
 			this.Controls.Add(this.numEta);
 			this.Controls.Add(this.lblAccuracy);
 			this.Controls.Add(this.label4);
@@ -135,6 +168,7 @@
 			this.Text = "Multilayer Perceptron";
 			((System.ComponentModel.ISupportInitialize)(this.numEta)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.gridConfMatrix)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.numMaxEpochs)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -147,6 +181,7 @@
 		private System.Windows.Forms.Label label4;
 		private System.Windows.Forms.DataGridView gridConfMatrix;
 		private System.Windows.Forms.Button btnStartMachine;
+		private System.Windows.Forms.NumericUpDown numMaxEpochs;
 
 	}
 }

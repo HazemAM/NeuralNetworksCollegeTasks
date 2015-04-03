@@ -30,14 +30,17 @@ namespace NeuralNetworks
 			);
 
 			DataSetReader irisSet = new DataSetReader("../../../DataSets/iris.data", DataSetType.IRIS, true);
+			
 			double eta = (double)numEta.Value;
+			int epochs = (int)numMaxEpochs.Value;
+			MultilayerNeuralNetwork network = new BackPropagation(new Layer[] { hidden, output }, irisSet, eta, epochs);
 
-			MultilayerNeuralNetwork network = new BackPropagation(new Layer[] { hidden, output }, irisSet, eta);
 			network.train(50);
 			int[,] testMatrix = network.test(20);
 
 			UiTools.drawMatrix(gridConfMatrix, testMatrix);
-			lblAccuracy.Text = VectorTools.confusionAccuracy(testMatrix).ToString();
+			double accuracy = VectorTools.confusionAccuracy(testMatrix);
+			lblAccuracy.Text = Math.Round(accuracy, 4).ToString();
 		}
 
 		private void btnStartMachine_Click(object sender, EventArgs e)
