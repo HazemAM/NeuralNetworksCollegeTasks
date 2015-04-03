@@ -12,7 +12,7 @@ namespace NeuralNetworks.MultilayerNetworks
 		protected double[] target;
 		protected double eta;
 
-		protected const int MAX_EPOCHS = 500;
+		protected const int MAX_EPOCHS = 50;
 
 
 		/*

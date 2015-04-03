@@ -38,7 +38,8 @@ namespace NeuralNetworks
 		/// <summary>The derivative of the sigmoid function.</summary>
 		public static double sigmoidDiff(double num)
 		{
-			return sigmoid(num) * (1 - sigmoid(num));
+			double sigmoidOut = sigmoid(num);
+			return sigmoidOut * (1 - sigmoidOut);
 		}
 
 		/// <summary>The tanh function.</summary>
@@ -50,7 +51,8 @@ namespace NeuralNetworks
 		/// <summary>The derivative of the tanh function.</summary>
 		public static double tanhDiff(double num)
 		{
-			return (1 - tanh(num)) * (1 + tanh(num));
+			double tanhOut = tanh(num);
+			return (1 - tanhOut) * (1 + tanhOut);
 		}
 	}
 }

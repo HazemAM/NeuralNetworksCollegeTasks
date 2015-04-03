@@ -118,6 +118,14 @@ namespace NeuralNetworks
 
 		/// <summary>Normalize a single value using the database normalization parameters.</summary>
 		/// <returns>The normalized value.</returns>
+		public double[] norm(double[] value)
+		{
+			double[] featureMask = VectorTools.ones(features);
+			return this.norm(value, featureMask);
+		}
+
+		/// <summary>Normalize a single value using the database normalization parameters.</summary>
+		/// <returns>The normalized value.</returns>
 		public double[] norm(double[] value, double[] featureMask)
 		{
 			double[] result = new double[value.Length];
