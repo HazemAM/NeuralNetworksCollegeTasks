@@ -16,7 +16,7 @@ namespace NeuralNetworks
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new SingleLayerWindow());
+			Application.Run(new MultilayerWindow());
 		}
 	}
 }

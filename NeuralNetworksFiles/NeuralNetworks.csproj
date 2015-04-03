@@ -53,12 +53,18 @@
     </Compile>
     <Compile Include="MultilayerNetworks\Neuron.cs" />
     <Compile Include="MultilayerNetworks\BackPropagation.cs" />
-    <Compile Include="SingleLayerNetworks\LMS.cs" />
-    <Compile Include="MainWindow.cs">
+    <Compile Include="MultilayerWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MainWindow.Designer.cs">
-      <DependentUpon>MainWindow.cs</DependentUpon>
+    <Compile Include="MultilayerWindow.Designer.cs">
+      <DependentUpon>MultilayerWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SingleLayerNetworks\LMS.cs" />
+    <Compile Include="SingleLayerWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SingleLayerWindow.Designer.cs">
+      <DependentUpon>SingleLayerWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="MultilayerNetworks\MultilayerNeuralNetwork.cs" />
     <Compile Include="SingleLayerNetworks\NeuralNetwork.cs" />
@@ -68,8 +74,11 @@
     <Compile Include="UIHelpers\GraphDrawer.cs" />
     <Compile Include="UIHelpers\UiTools.cs" />
     <Compile Include="GeneralHelpers\VectorTools.cs" />
-    <EmbeddedResource Include="MainWindow.resx">
-      <DependentUpon>MainWindow.cs</DependentUpon>
+    <EmbeddedResource Include="MultilayerWindow.resx">
+      <DependentUpon>MultilayerWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SingleLayerWindow.resx">
+      <DependentUpon>SingleLayerWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
