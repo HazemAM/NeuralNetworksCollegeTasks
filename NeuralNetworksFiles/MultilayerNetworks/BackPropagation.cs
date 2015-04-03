@@ -24,7 +24,6 @@ namespace NeuralNetworks.MultilayerNetworks
 					for(int s=0; s < trainCount; s++) //Sample index.
 					{
 						input = this.dataSet.dataNorm[c][s];
-						outputValue = new double[this.layer.Length][];
 						error = new double[this.layer.Length][];
 
 
@@ -32,28 +31,7 @@ namespace NeuralNetworks.MultilayerNetworks
 						 * FORWARD STEP
 						 * Target vs. output
 						 */
-						double tempNet = 0, tempMult = 0;
-						bool isFirstLayer = true;
-						for(int i=0; i < this.layer.Length; i++) //The layers loop.
-						{
-							outputValue[i] = new double[this.layer[i].nodes]; //Define output inner array of layer's neuron count.
-							for(int j=0; j < this.layer[i].nodes; j++) //The neurons loop (for each layer).
-							{
-								tempNet = this.layer[i].neuron[j].biasWeight * this.layer[i].neuron[j].bias; //Interaction with bias.					
-								isFirstLayer = (i == 0); //Indicates: This is the first layer after input layer.
-
-								for(int k=0; k < this.layer[i].neuron[j].weight.Length; k++){
-									if(i > 0 && this.layer[i].neuron[j].weight.Length != this.layer[i - 1].nodes) //In case weights doesn't equal previous layer's neurons.
-										throw new ArgumentException("Neuron must have weight length of the previous layer's neurons");
-										//TODO: Check first layer's neurons too (when i==0).
-
-									tempMult = isFirstLayer ? input[k] : outputValue[i - 1][k]; //If this is the first layer, multiply with input layer.
-									tempNet += this.layer[i].neuron[j].weight[k] * tempMult;
-								}
-
-								outputValue[i][j] = this.layer[i].neuron[j].activationFunction(tempNet); //Calculating net for current neuron.
-							}
-						}
+						outputValue = forwardStep(input);
 
 						/* ITERATION CONTINUE CHECK */
 						bool isTargetEqualsOutput = true;
@@ -100,8 +78,8 @@ namespace NeuralNetworks.MultilayerNetworks
 						 * SECOND FORWARD STEP
 						 * Weights update
 						 */
-						isFirstLayer = true;
-						tempMult = 0;
+						bool isFirstLayer = true;
+						double tempMult = 0;
 						for(int i=0; i < this.layer.Length; i++) //The layers loop.
 						{
 							isFirstLayer = (i == 0); //Indicates: This is the first layer after input layer.
@@ -123,10 +101,43 @@ namespace NeuralNetworks.MultilayerNetworks
 			} //End of mother loop.
 		}
 
+		private double[][] forwardStep(double[] input)
+		{
+			double[][] outputValue = new double[this.layer.Length][];
+
+			double tempNet = 0, tempMult = 0;
+			bool isFirstLayer = true;
+			for(int i=0; i < this.layer.Length; i++) //The layers loop.
+			{
+				outputValue[i] = new double[this.layer[i].nodes]; //Define output inner array of layer's neuron count.
+				for(int j=0; j < this.layer[i].nodes; j++) //The neurons loop (for each layer).
+				{
+					tempNet = this.layer[i].neuron[j].biasWeight * this.layer[i].neuron[j].bias; //Interaction with bias.					
+					isFirstLayer = (i == 0); //Indicates: This is the first layer after input layer.
+
+					for(int k=0; k < this.layer[i].neuron[j].weight.Length; k++){
+						if(i > 0 && this.layer[i].neuron[j].weight.Length != this.layer[i - 1].nodes) //In case weights doesn't equal previous layer's neurons.
+							throw new ArgumentException("Neuron must have weight length of the previous layer's neurons");
+							//TODO: Check first layer's neurons too (when i==0).
+
+						tempMult = isFirstLayer ? input[k] : outputValue[i - 1][k]; //If this is the first layer, multiply with input layer.
+						tempNet += this.layer[i].neuron[j].weight[k] * tempMult;
+					}
+
+					outputValue[i][j] = this.layer[i].neuron[j].activationFunction(tempNet); //Calculating net for current neuron.
+				}
+			}
+
+			return outputValue;
+		}
+
 		public override double classify(double[] input)
 		{
-			//TODO: The whole function using the first forward step only.
-			throw new NotImplementedException();
+			input = dataSet.norm(input);
+			
+			double[][] output = forwardStep(input);
+			int max = VectorTools.maxIndex(output[output.Length - 1]);
+			return max;
 		}
 	}
 }
