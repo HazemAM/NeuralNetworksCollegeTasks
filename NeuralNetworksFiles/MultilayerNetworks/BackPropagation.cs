@@ -72,17 +72,20 @@ namespace NeuralNetworks.MultilayerNetworks
 						 */
 						bool isOutputLayer = true;
 						double tempPlus;
+						int desiredOutput;
 						for(int i = this.layer.Length - 1; i >= 0; i--) //The layers loop, REVERSED.
 						{
 							error[i] = new double[this.layer[i].nodes]; //Define error inner array of layer's neuron count.
-					
 							isOutputLayer = (i == this.layer.Length - 1);
+
 							for(int j=0; j < this.layer[i].nodes; j++) //The neurons loop (for each layer).
 							{
 								error[i][j] = this.layer[i].neuron[j].activationFunctionDerivative(outputValue[i][j]);
 
-								if(isOutputLayer) //Special treatment for output layer.
-									error[i][j] *= (this.target[j] - outputValue[i][j]);
+								if(isOutputLayer){ //Special treatment for output layer.
+									desiredOutput = (c == j) ? 1 : 0;
+									error[i][j] *= (desiredOutput - outputValue[i][j]);
+								}
 								else{
 									tempPlus = 0;
 									for(int k=0; k < this.layer[i + 1].nodes; k++)
@@ -106,7 +109,7 @@ namespace NeuralNetworks.MultilayerNetworks
 							{
 								this.layer[i].neuron[j].biasWeight += this.eta * error[i][j] * this.layer[i].neuron[j].bias; //Update bias weight.
 
-								for(int k=0; k < this.layer[i].neuron[j].weight.Length; k++){ //Update other wights.
+								for(int k=0; k < this.layer[i].neuron[j].weight.Length; k++){ //Update other weights.
 									tempMult = isFirstLayer ? input[k] : outputValue[i - 1][k];
 									this.layer[i].neuron[j].weight[k] += this.eta * error[i][j] * tempMult;
 								}
