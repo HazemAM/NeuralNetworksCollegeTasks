@@ -1,6 +1,6 @@
 ﻿namespace NeuralNetworks
 {
-	partial class MainWindow
+	partial class SingleLayerWindow
 	{
 		/// <summary>
 		/// Required designer variable.

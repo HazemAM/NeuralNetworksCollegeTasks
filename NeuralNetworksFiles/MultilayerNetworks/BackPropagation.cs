@@ -144,8 +144,7 @@ namespace NeuralNetworks.MultilayerNetworks
 		{
 			int[,] confMatrix = new int[this.dataSet.classes, this.dataSet.classes];
 
-			int startIndex = this.dataSet.samples - testCount - 1,
-				success = 0;
+			int startIndex = this.dataSet.samples - testCount - 1;
 			int classOut;
 			double[] lineData;
 
@@ -155,8 +154,6 @@ namespace NeuralNetworks.MultilayerNetworks
 				{
 					lineData = this.dataSet.data[c][startIndex + j]; //Data is already normalized in classify,
 					classOut = classify(lineData);					 //so send the UN-NORMALIZED data.
-					if(classOut == c)
-						success++;
 
 					confMatrix[c, classOut]++;
 				}
