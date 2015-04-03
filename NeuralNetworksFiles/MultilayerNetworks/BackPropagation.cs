@@ -4,8 +4,8 @@ namespace NeuralNetworks.MultilayerNetworks
 {
 	public class BackPropagation : MultilayerNeuralNetwork
 	{
-		public BackPropagation(Layer[] layers, DataSetReader dataSet, double[] target, double eta)
-			: base(layers, dataSet, target, eta)
+		public BackPropagation(Layer[] layers, DataSetReader dataSet, double eta)
+			: base(layers, dataSet, eta)
 		{
 			//Nothing here.
 		}
@@ -34,14 +34,14 @@ namespace NeuralNetworks.MultilayerNetworks
 						outputValue = forwardStep(input);
 
 						/* ITERATION CONTINUE CHECK */
-						bool isTargetEqualsOutput = true;
-						Layer outputLayer = this.layer[this.layer.Length - 1];
-						double[] outputLayerNet = outputValue[outputValue.Length - 1];
-						for(int i=0; i < outputLayer.nodes; i++) //Check if all neurons in output layer equals the corresponding target.
-							if((isTargetEqualsOutput = (this.target[i] == outputLayerNet[i])) == false) break; //Break on first (target != output).
+						//bool isTargetEqualsOutput = true;
+						//Layer outputLayer = this.layer[this.layer.Length - 1];
+						//double[] outputLayerNet = outputValue[outputValue.Length - 1];
+						//for(int i=0; i < outputLayer.nodes; i++) //Check if all neurons in output layer equals the corresponding target.
+						//	if((isTargetEqualsOutput = (this.target[i] == outputLayerNet[i])) == false) break; //Break on first (target != output).
 
-						if(isTargetEqualsOutput)
-							break;
+						//if(isTargetEqualsOutput)
+						//	break;
 
 
 						/*

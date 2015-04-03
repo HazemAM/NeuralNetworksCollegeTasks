@@ -30,10 +30,9 @@ namespace NeuralNetworks
 			);
 
 			DataSetReader irisSet = new DataSetReader("../../../DataSets/iris.data", DataSetType.IRIS, true);
-			double[] target = new double[] {0.5, 0.5, 0.5};
 			double eta = (double)numEta.Value;
 
-			MultilayerNeuralNetwork network = new BackPropagation(new Layer[] { hidden, output }, irisSet, target, eta);
+			MultilayerNeuralNetwork network = new BackPropagation(new Layer[] { hidden, output }, irisSet, eta);
 			network.train(50);
 			int[,] testMatrix = network.test(20);
 
