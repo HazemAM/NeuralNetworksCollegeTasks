@@ -120,6 +120,8 @@ namespace NeuralNetworks
 			return newArr;
 		}
 
+		/// <summary>Finds the maximum in a double array.</summary>
+		/// <returns>The maximum value.</returns>
 		public static double max(double[] arr)
 		{
 			double size = arr.Length;
@@ -127,6 +129,19 @@ namespace NeuralNetworks
 
 			for(int i = 0; i < size; i++)
 				max = arr[i] > max ? arr[i] : max;
+
+			return max;
+		}
+
+		/// <summary>Finds the maximum in a double array.</summary>
+		/// <returns>The index of maximum value.</returns>
+		public static int maxIndex(double[] arr)
+		{
+			double size = arr.Length;
+			int max = 0;
+
+			for(int i = 0; i < size; i++)
+				max = arr[i] > arr[max] ? i : max;
 
 			return max;
 		}
@@ -157,6 +172,19 @@ namespace NeuralNetworks
 				}
 
 			return min;
+		}
+
+		/// <summary>Finds the minimum in a double array.</summary>
+		/// <returns>The index of minimum value.</returns>
+		public static int minIndex(double[] arr)
+		{
+			double size = arr.Length;
+			int max = 0;
+
+			for(int i = 0; i < size; i++)
+				max = arr[i] < arr[max] ? i : max;
+
+			return max;
 		}
 
         public static double mean(double[] vec)
