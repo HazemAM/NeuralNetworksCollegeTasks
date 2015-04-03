@@ -60,7 +60,8 @@ namespace NeuralNetworks
 
 			MultilayerNeuralNetwork network = new BackPropagation(new Layer[] { hidden, output }, irisSet, target, 0.75);
 			network.train(50);
-			network.classify(new double[] {5.1,3.5,1.4,0.2});
+			network.test(20);
+			//network.classify(new double[] {5.1,3.5,1.4,0.2});
 			/* MLP TESTING END */
 
 		}

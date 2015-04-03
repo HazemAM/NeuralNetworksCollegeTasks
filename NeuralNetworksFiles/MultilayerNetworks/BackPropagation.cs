@@ -131,13 +131,38 @@ namespace NeuralNetworks.MultilayerNetworks
 			return outputValue;
 		}
 
-		public override double classify(double[] input)
+		public override int classify(double[] input)
 		{
 			input = dataSet.norm(input);
 			
 			double[][] output = forwardStep(input);
 			int max = VectorTools.maxIndex(output[output.Length - 1]);
 			return max;
+		}
+
+		public override int[,] test(int testCount)
+		{
+			int[,] confMatrix = new int[this.dataSet.classes, this.dataSet.classes];
+
+			int startIndex = this.dataSet.samples - testCount - 1,
+				success = 0;
+			int classOut;
+			double[] lineData;
+
+			for(int c=0; c < this.dataSet.classes; c++)
+			{
+				for(int j=0; j < testCount; j++)
+				{
+					lineData = this.dataSet.data[c][startIndex + j]; //Data is already normalized in classify,
+					classOut = classify(lineData);					 //so send the UN-NORMALIZED data.
+					if(classOut == c)
+						success++;
+
+					confMatrix[c, classOut]++;
+				}
+			}
+
+			return confMatrix;
 		}
 	}
 }
