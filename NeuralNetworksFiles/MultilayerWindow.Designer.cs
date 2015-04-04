@@ -155,7 +155,7 @@
 			this.numMaxEpochs.TabIndex = 18;
 			this.toolTip.SetToolTip(this.numMaxEpochs, "Maximum epochs");
 			this.numMaxEpochs.Value = new decimal(new int[] {
-            500,
+            100,
             0,
             0,
             0});

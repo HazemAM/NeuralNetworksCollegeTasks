@@ -35,10 +35,9 @@ namespace NeuralNetworks
 			return (1 / (1 + exp));
 		}
 
-		/// <summary>The derivative of the sigmoid function.</summary>
-		public static double sigmoidDiff(double num)
+		/// <summary>The derivative of the sigmoid function, given sigmoid function output as input.</summary>
+		public static double sigmoidDiff(double sigmoidOut)
 		{
-			double sigmoidOut = sigmoid(num);
 			return sigmoidOut * (1 - sigmoidOut);
 		}
 

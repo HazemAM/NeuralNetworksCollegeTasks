@@ -120,8 +120,11 @@ namespace NeuralNetworks
 		/// <returns>The normalized value.</returns>
 		public double[] norm(double[] value)
 		{
-			double[] featureMask = VectorTools.ones(features);
-			return this.norm(value, featureMask);
+			double[] result = new double[value.Length];
+			for(int i=0; i<result.Length; i++)
+				result[i] = (value[i] - mean[i]) / max[i];
+
+			return result;
 		}
 
 		/// <summary>Normalize a single value using the database normalization parameters.</summary>
