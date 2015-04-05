@@ -24,6 +24,9 @@ namespace NeuralNetworks
 		{
 			Layer hidden = new Layer(
 				new Neuron[] {
+					new Neuron(new double[] {0.21, 0.15, 0.15, 0.15}, 1, -0.3, ActivationFunctions.sigmoid, ActivationFunctions.sigmoidDiff),
+					new Neuron(new double[] {-0.4, 0.1, 0.2, 0.1}, 1, -0.1, ActivationFunctions.sigmoid, ActivationFunctions.sigmoidDiff),
+					new Neuron(new double[] {-0.15, 0.05, 0.25, 0.1}, 1, -0.15, ActivationFunctions.sigmoid, ActivationFunctions.sigmoidDiff)
 				}
 			);
 			Layer output = new Layer(
@@ -38,7 +41,7 @@ namespace NeuralNetworks
 			int epochs = (int)numMaxEpochs.Value;
 			network = new BackPropagation(new Layer[] { hidden, output }, irisSet, eta, epochs);
 
-			network.train(30);
+			network.train(50);
 			int[,] testMatrix = network.test(20);
 
 			UiTools.drawMatrix(gridConfMatrix, testMatrix);
