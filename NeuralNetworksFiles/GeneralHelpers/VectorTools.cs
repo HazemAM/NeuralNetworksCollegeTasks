@@ -75,6 +75,15 @@ namespace NeuralNetworks
 			return result;
 		}
 
+		public static double[] zeros(int length)
+		{
+			double[] result = new double[length];
+			for(int i=0; i < result.Length; i++)
+				result[i] = 0;
+
+			return result;
+		}
+
 		public static double[] sequence(int length)
 		{
 			double[] result = new double[length];

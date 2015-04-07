@@ -24,16 +24,16 @@ namespace NeuralNetworks
 		{
 			Layer hidden = new Layer(
 				new Neuron[] {
-					new Neuron(new double[] {0, 0, 0, 0}, 1, -0, ActivationFunctions.sigmoid, ActivationFunctions.sigmoidDiff),
-					new Neuron(new double[] {-0, 0, 0, 0}, 1, -0, ActivationFunctions.sigmoid, ActivationFunctions.sigmoidDiff),
-					new Neuron(new double[] {-0, 0, 0, 0}, 1, -0, ActivationFunctions.sigmoid, ActivationFunctions.sigmoidDiff)
+					new Neuron(VectorTools.zeros(4), 1, 0, ActivationFunctions.sigmoid, ActivationFunctions.sigmoidDiff),
+					new Neuron(VectorTools.zeros(4), 1, 0, ActivationFunctions.sigmoid, ActivationFunctions.sigmoidDiff),
+					new Neuron(VectorTools.zeros(4), 1, 0, ActivationFunctions.sigmoid, ActivationFunctions.sigmoidDiff)
 				}
 			);
 			Layer output = new Layer(
 				new Neuron[] {
-					new Neuron(new double[] {-0, 0, 0}, 1, -0, ActivationFunctions.sigmoid, ActivationFunctions.sigmoidDiff),
-					new Neuron(new double[] {-0, 0, 0}, 1, -0, ActivationFunctions.sigmoid, ActivationFunctions.sigmoidDiff),
-					new Neuron(new double[] {0, 0, 0}, 1, -0, ActivationFunctions.sigmoid, ActivationFunctions.sigmoidDiff)
+					new Neuron(VectorTools.zeros(3), 1, 0, ActivationFunctions.sigmoid, ActivationFunctions.sigmoidDiff),
+					new Neuron(VectorTools.zeros(3), 1, 0, ActivationFunctions.sigmoid, ActivationFunctions.sigmoidDiff),
+					new Neuron(VectorTools.zeros(3), 1, 0, ActivationFunctions.sigmoid, ActivationFunctions.sigmoidDiff)
 				}
 			);
 			
