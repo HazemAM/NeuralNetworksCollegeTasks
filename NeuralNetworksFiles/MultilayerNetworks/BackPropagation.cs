@@ -33,16 +33,6 @@ namespace NeuralNetworks.MultilayerNetworks
 						 */
 						outputValue = forwardStep(input);
 
-						/* ITERATION CONTINUE CHECK */
-						//bool isTargetEqualsOutput = true;
-						//Layer outputLayer = this.layer[this.layer.Length - 1];
-						//double[] outputLayerNet = outputValue[outputValue.Length - 1];
-						//for(int i=0; i < outputLayer.nodes; i++) //Check if all neurons in output layer equals the corresponding target.
-						//	if((isTargetEqualsOutput = (this.target[i] == outputLayerNet[i])) == false) break; //Break on first (target != output).
-
-						//if(isTargetEqualsOutput)
-						//	break;
-
 
 						/*
 						 * BACKWARD STEP
@@ -72,6 +62,9 @@ namespace NeuralNetworks.MultilayerNetworks
 								}
 							}
 						}
+
+						/* ITERATION CONTINUE CHECK */
+						//TODO: Minimum error stopping condition?
 
 
 						/*
@@ -105,6 +98,7 @@ namespace NeuralNetworks.MultilayerNetworks
 		{
 			double[][] outputValue = new double[this.layer.Length][];
 
+			int weightsCount;
 			double tempNet = 0, tempMult = 0;
 			bool isFirstLayer = true;
 			for(int i=0; i < this.layer.Length; i++) //The layers loop.
@@ -115,11 +109,12 @@ namespace NeuralNetworks.MultilayerNetworks
 					tempNet = this.layer[i].neuron[j].biasWeight * this.layer[i].neuron[j].bias; //Interaction with bias.					
 					isFirstLayer = (i == 0); //Indicates: This is the first layer after input layer.
 
-					for(int k=0; k < this.layer[i].neuron[j].weight.Length; k++){
-						if(i > 0 && this.layer[i].neuron[j].weight.Length != this.layer[i - 1].nodes) //In case weights doesn't equal previous layer's neurons.
-							throw new ArgumentException("Neuron must have weight length of the previous layer's neurons");
-							//TODO: Check first layer's neurons too (when i==0).
+					//In case weights doesn't equal previous layer's neurons:
+					weightsCount = this.layer[i].neuron[j].weight.Length;
+					if((i > 0 && weightsCount != this.layer[i - 1].nodes) || (i == 0 && weightsCount != input.Length))
+						throw new ArgumentException("Neuron must have weight length of the previous layer's neurons");
 
+					for(int k=0; k < weightsCount; k++){ //The weights loop (for each neuron).
 						tempMult = isFirstLayer ? input[k] : outputValue[i - 1][k]; //If this is the first layer, multiply with input layer.
 						tempNet += this.layer[i].neuron[j].weight[k] * tempMult;
 					}
